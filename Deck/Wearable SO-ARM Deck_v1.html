@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Wearable SO-ARM — Lightning Talk</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0e;
+    --fg: #f5f5f7;
+    --fg-dim: #9a9a9f;
+    --fg-faint: #4a4a50;
+    --accent: #ff6a1a;
+    --accent-2: #ffd447;
+    --divider: #23232a;
+    --font-jp: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --font-serif: "Instrument Serif", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #000; color: var(--fg); font-family: var(--font-jp); -webkit-font-smoothing: antialiased; }
+
+  /* ───────── Slide base ───────── */
+  section.slide {
+    background: var(--bg);
+    color: var(--fg);
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-jp);
+  }
+  .chrome {
+    position: absolute;
+    top: 48px; left: 64px; right: 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    z-index: 5;
+  }
+  .chrome__dot { display: inline-block; width: 7px; height: 7px; background: var(--accent); border-radius: 100px; margin-right: 10px; vertical-align: middle; }
+  .chrome__r { letter-spacing: 0.28em; }
+
+  .footer {
+    position: absolute;
+    bottom: 44px; left: 64px; right: 64px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    z-index: 5;
+  }
+  .footer b { color: var(--fg); font-weight: 500; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .eyebrow::before {
+    content: ''; width: 36px; height: 1px; background: var(--accent);
+  }
+
+  /* ───────── 01: TITLE ───────── */
+  .s-title { display: grid; grid-template-columns: 1.1fr 0.9fr; }
+  .s-title__L {
+    padding: 180px 80px 100px 112px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .s-title__kicker {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.3em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .s-title__kicker b { color: var(--accent); font-weight: 500; }
+  .s-title__lead {
+    font-size: 120px;
+    line-height: 0.98;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+    margin-bottom: 32px;
+    text-wrap: balance;
+  }
+  .s-title__lead em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-title__sub {
+    font-size: 28px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+    max-width: 640px;
+    font-weight: 400;
+  }
+  .s-title__sub b { color: var(--fg); font-weight: 700; }
+  .s-title__R {
+    position: relative;
+    background: linear-gradient(140deg, #16160f 0%, #0b0b0e 70%);
+    overflow: hidden;
+  }
+  .s-title__R img {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    filter: saturate(1.05) contrast(1.05);
+  }
+  .s-title__R::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 80% 50%, transparent 35%, rgba(11,11,14,0.92) 90%);
+  }
+  .s-title__tag {
+    position: absolute;
+    right: 48px; bottom: 48px;
+    z-index: 3;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    line-height: 1.45;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    text-align: right;
+  }
+  .s-title__tag b { color: var(--accent); font-weight: 500; }
+
+  /* ───────── 02: THESIS ───────── */
+  .s-thesis {
+    padding: 180px 112px 140px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-thesis__text {
+    font-size: 88px;
+    line-height: 1.15;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    max-width: 1600px;
+    text-wrap: balance;
+  }
+  .s-thesis__text .strike {
+    position: relative;
+    color: var(--fg-faint);
+    font-weight: 400;
+  }
+  .s-thesis__text .strike::after {
+    content: '';
+    position: absolute;
+    left: -4px; right: -4px; top: 54%;
+    height: 6px;
+    background: var(--fg-faint);
+    transform: rotate(-1.5deg);
+  }
+  .s-thesis__text em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--fg);
+  }
+  .s-thesis__text .hit {
+    color: var(--accent);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    padding-left: 0.35em;
+  }
+  .s-thesis__text .hit::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.08em; bottom: 0.08em;
+    width: 4px;
+    background: var(--accent);
+  }
+  .s-thesis__foot {
+    margin-top: 80px;
+    font-size: 26px;
+    color: var(--fg-dim);
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    max-width: 1300px;
+  }
+  .s-thesis__foot b { color: var(--fg); font-weight: 500; }
+
+  /* ───────── 03: THE ANSWER (wearable) ───────── */
+  .s-answer {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+  }
+  .s-answer__L {
+    padding: 180px 64px 140px 112px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-answer__huge {
+    font-size: 140px;
+    line-height: 0.94;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 40px;
+    text-wrap: balance;
+  }
+  .s-answer__huge em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-answer__body {
+    font-size: 28px;
+    line-height: 1.6;
+    color: var(--fg-dim);
+    max-width: 620px;
+  }
+  .s-answer__body b { color: var(--fg); font-weight: 700; }
+  .s-answer__specs {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 620px;
+  }
+  .spec {
+    border-top: 1px solid var(--divider);
+    padding-top: 16px;
+    font-family: var(--font-mono);
+  }
+  .spec__v {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .spec__v em { color: var(--accent); font-style: normal; }
+  .spec__k {
+    font-size: 24px;
+    letter-spacing: 0.2em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+  }
+  .s-answer__R {
+    position: relative;
+    background: #111;
+    overflow: hidden;
+  }
+  .s-answer__R img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+  }
+  .s-answer__R::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(11,11,14,0.6) 0%, transparent 25%, transparent 75%, rgba(11,11,14,0.25) 100%);
+  }
+  .s-answer__marks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .mark {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg);
+    text-transform: uppercase;
+  }
+  .mark::before {
+    content: '';
+    display: inline-block;
+    width: 10px; height: 10px;
+    border: 1px solid var(--accent);
+    background: rgba(255,106,26,0.35);
+    margin-right: 10px;
+    vertical-align: middle;
+    border-radius: 100px;
+  }
+  .mark--1 { top: 38%; left: 4%; }
+  .mark--2 { top: 54%; right: 4%; text-align: right; }
+  .mark--2::before { margin-right: 0; margin-left: 10px; order: 2; }
+  .mark--2 { display: flex; flex-direction: row-reverse; align-items: center; }
+  .mark--3 { top: 46%; left: 34%; }
+
+  /* ───────── 04: ROADMAP MAP ───────── */
+  .s-map {
+    padding: 140px 96px 120px;
+    display: flex; flex-direction: column;
+  }
+  .s-map__head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 48px;
+  }
+  .s-map__title {
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+  .s-map__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-map__legend {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 2;
+  }
+  .s-map__canvas {
+    flex: 1;
+    position: relative;
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    background:
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px) 0 0 / 56px 56px,
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px) 0 0 / 56px 56px,
+      radial-gradient(ellipse at 50% 50%, #131318 0%, #0b0b0e 70%);
+    overflow: hidden;
+  }
+  .s-map__canvas::before {
+    content: 'N ↑';
+    position: absolute;
+    top: 20px; right: 24px;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.2em;
+    color: var(--fg-faint);
+  }
+  /* Winding path SVG sits behind pins */
+  .s-map__path {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+  }
+  .pin {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    width: 420px;
+  }
+  .pin--below {
+    transform: translate(-50%, 0);
+    display: flex;
+    flex-direction: column;
+  }
+  .pin--below .pin__stem {
+    order: -1;
+  }
+  .pin--below .pin__stem::before {
+    top: -6px;
+    bottom: auto;
+  }
+  .pin--below .pin__card {
+    border-left: 3px solid var(--accent);
+  }
+  .pin__stem {
+    width: 2px; height: 48px;
+    background: var(--accent);
+    margin: 0 auto;
+    position: relative;
+  }
+  .pin__stem::before {
+    content: ''; position: absolute;
+    left: 50%; bottom: -6px;
+    transform: translateX(-50%);
+    width: 14px; height: 14px;
+    background: var(--accent);
+    border-radius: 100px;
+    box-shadow: 0 0 0 6px rgba(255,106,26,0.2);
+  }
+  .pin__card {
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-left: 3px solid var(--accent);
+    padding: 18px 22px 20px;
+    margin-bottom: 0;
+  }
+  .pin__phase {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .pin__title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.18;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .pin__desc {
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+  }
+  .pin--1 { left: 14%; top: 68%; }
+  .pin--2 { left: 44%; top: 48%; }
+  .pin--3 { left: 76%; top: 42%; }
+  .pin--future { opacity: 0.62; }
+  .pin--future .pin__stem { background: var(--fg-faint); }
+  .pin--future .pin__stem::before { background: var(--fg-faint); box-shadow: 0 0 0 6px rgba(154,154,159,0.15); }
+  .pin--future .pin__card { border-left-color: var(--fg-faint); }
+  .pin--future .pin__phase { color: var(--fg-dim); }
+
+  /* Compass rose decoration */
+  .compass {
+    position: absolute;
+    left: 40px; bottom: 32px;
+    width: 96px; height: 96px;
+    opacity: 0.55;
+  }
+
+  /* ───────── 05: PHASE 1 detail (pollination) ───────── */
+  /* DANCE demo (Phase 0 evidence) */
+  .s-dance {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #050507;
+    overflow: hidden;
+  }
+  .s-dance__L {
+    padding: 140px 96px 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .s-dance__tag {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .s-dance__title {
+    font-size: 96px;
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .s-dance__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .s-dance__body {
+    font-size: 24px;
+    line-height: 1.65;
+    color: var(--fg-dim);
+    max-width: 620px;
+  }
+  .s-dance__body b { color: var(--fg); font-weight: 600; }
+  .s-dance__stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 8px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .s-dance__stat b {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 44px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .s-dance__stat span {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+  }
+  .s-dance__R {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+  }
+  .s-dance__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(1.05) saturate(1.05);
+  }
+  .s-dance__scan {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.55) 100%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0) 0, rgba(255,255,255,0) 3px, rgba(255,255,255,0.025) 3px, rgba(255,255,255,0.025) 4px);
+  }
+  .s-dance__reticle {
+    position: absolute;
+    top: 96px; right: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .s-dance__reticle::before {
+    content: '';
+    width: 10px; height: 10px;
+    border-radius: 100px;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(255,106,26,0.8);
+    animation: recpulse 1.4s ease-out infinite;
+  }
+  @keyframes recpulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,106,26,0.8); }
+    100% { box-shadow: 0 0 0 18px rgba(255,106,26,0); }
+  }
+  .s-dance__caption {
+    position: absolute;
+    left: 32px; bottom: 32px;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    color: var(--fg);
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 14px;
+    border-left: 2px solid var(--accent);
+    backdrop-filter: blur(8px);
+  }
+  .s-dance__caption span { color: var(--fg-dim); margin-left: 10px; }
+  .s-dance__corners::before,
+  .s-dance__corners::after,
+  .s-dance__corners > i:first-child,
+  .s-dance__corners > i:last-child {
+    content: '';
+    position: absolute;
+    width: 40px; height: 40px;
+    border: 2px solid var(--accent);
+    pointer-events: none;
+  }
+  .s-dance__corners::before { top: 24px; left: 24px; border-right: 0; border-bottom: 0; }
+  .s-dance__corners::after  { top: 24px; right: 24px; border-left: 0; border-bottom: 0; }
+  .s-dance__corners > i:first-child { bottom: 24px; left: 24px; border-right: 0; border-top: 0; }
+  .s-dance__corners > i:last-child  { bottom: 24px; right: 24px; border-left: 0; border-top: 0; }
+
+  .s-phase {
+    padding: 140px 112px 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+  .s-phase__L { display: flex; flex-direction: column; justify-content: center; }
+  .s-phase__tag {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .s-phase__title {
+    font-size: 88px;
+    line-height: 1.0;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: 36px;
+  }
+  .s-phase__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-phase__body {
+    font-size: 24px;
+    line-height: 1.7;
+    color: var(--fg-dim);
+    max-width: 680px;
+  }
+  .s-phase__body b { color: var(--fg); font-weight: 700; }
+  .s-phase__quote {
+    margin-top: 40px;
+    padding: 24px 28px;
+    border-left: 3px solid var(--accent);
+    background: rgba(255,106,26,0.04);
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--fg);
+    font-weight: 500;
+    max-width: 680px;
+  }
+  .s-phase__R {
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-phase__dia {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .flow__step {
+    border: 1px solid var(--divider);
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    gap: 18px;
+    align-items: center;
+    position: relative;
+  }
+  .flow__step--hot {
+    border-color: var(--accent);
+    background: rgba(255,106,26,0.05);
+  }
+  .flow__n {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--fg-faint);
+    letter-spacing: -0.02em;
+  }
+  .flow__step--hot .flow__n { color: var(--accent); }
+  .flow__t { font-size: 26px; font-weight: 600; letter-spacing: -0.005em; }
+  .flow__sub {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+  }
+  .flow__step--hot .flow__sub { color: var(--accent); }
+  .flow__arrow {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--fg-faint);
+    text-align: center;
+    padding: 2px 0;
+  }
+
+  /* ───────── 06: DATA LOOP / AUTONOMY ───────── */
+  .s-loop {
+    padding: 140px 112px 120px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-loop__title {
+    font-size: 88px;
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-bottom: 64px;
+    max-width: 1500px;
+  }
+  .s-loop__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .loopBox {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    position: relative;
+    max-width: 1700px;
+  }
+  .loopBox__cell {
+    border: 1px solid var(--divider);
+    padding: 28px 28px 80px;
+    position: relative;
+    min-height: 260px;
+  }
+  .loopBox__n {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .loopBox__t {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -0.015em;
+  }
+  .loopBox__d {
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+  }
+  .loopBox__cell::after {
+    content: '→';
+    position: absolute;
+    right: -22px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    color: var(--fg-faint);
+    z-index: 2;
+  }
+  .loopBox__cell:last-child::after { content: '↻'; right: -22px; color: var(--accent); }
+  .s-loop__foot {
+    margin-top: 56px;
+    font-size: 26px;
+    color: var(--fg-dim);
+    max-width: 1400px;
+    line-height: 1.55;
+  }
+  .s-loop__foot b { color: var(--fg); font-weight: 700; }
+  .s-loop__foot em { color: var(--accent); font-style: normal; font-weight: 700; }
+
+  /* ───────── 07: PHYSICAL AI × AGRICULTURE VISION ───────── */
+  .s-vision {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .s-vision__L {
+    background: linear-gradient(160deg, #1a0f08 0%, #0b0b0e 70%);
+    padding: 160px 80px 140px 112px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .s-vision__num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 360px;
+    line-height: 0.8;
+    color: var(--accent);
+    position: absolute;
+    top: 60px; right: -30px;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .s-vision__kicker {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+  }
+  .s-vision__title {
+    font-size: 108px;
+    line-height: 0.96;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 36px;
+    position: relative;
+    z-index: 2;
+  }
+  .s-vision__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-vision__body {
+    font-size: 26px;
+    line-height: 1.6;
+    color: var(--fg-dim);
+    max-width: 620px;
+    position: relative;
+    z-index: 2;
+  }
+  .s-vision__body b { color: var(--fg); font-weight: 700; }
+  .s-vision__R {
+    padding: 160px 112px 140px 80px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-left: 1px solid var(--divider);
+  }
+  .axis {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .matrix {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.1;
+    max-width: 620px;
+  }
+  .matrix__grid {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--divider);
+  }
+  .matrix__grid::before, .matrix__grid::after {
+    content: '';
+    position: absolute;
+    background: var(--divider);
+  }
+  .matrix__grid::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+  .matrix__grid::after  { top: 50%; left: 0; right: 0; height: 1px; }
+  .matrix__axX, .matrix__axY {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    letter-spacing: 0.2em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+  }
+  .matrix__axX { bottom: -28px; left: 0; right: 0; display: flex; justify-content: space-between; }
+  .matrix__axY { top: 0; bottom: 0; left: -220px; width: 200px; display: flex; flex-direction: column; justify-content: space-between; text-align: right; }
+  .dot {
+    position: absolute;
+    width: 12px; height: 12px;
+    border-radius: 100px;
+    transform: translate(-50%, -50%);
+  }
+  .dot--outline { border: 1.5px solid var(--fg-dim); background: transparent; }
+  .dot--ours {
+    width: 22px; height: 22px;
+    background: var(--accent);
+    box-shadow: 0 0 0 8px rgba(255,106,26,0.2);
+  }
+  .dot__lbl {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .dot--ours .dot__lbl {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 22px;
+    top: 22px;
+  }
+
+  /* ───────── 08: CLOSING ───────── */
+  .s-close {
+    padding: 120px 112px 80px;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    column-gap: 80px;
+    row-gap: 40px;
+  }
+  .s-close > .chrome { grid-column: 1 / 3; grid-row: 1; }
+  .s-close__lead-wrap { grid-column: 1 / 2; grid-row: 2; align-self: center; }
+  .s-close__video {
+    grid-column: 2 / 3;
+    grid-row: 2;
+    position: relative;
+    align-self: center;
+    aspect-ratio: 9 / 16;
+    max-height: 720px;
+    justify-self: end;
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+    border: 1px solid var(--divider);
+    background: #000;
+  }
+  .s-close__video video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .s-close__video::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 70%, rgba(11,11,14,0.5) 100%);
+    pointer-events: none;
+  }
+  .s-close__video__cap {
+    position: absolute;
+    left: 14px; bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .s-close__video__cap b { color: var(--accent); font-weight: 400; }
+  .s-close__bot { grid-column: 1 / 3; grid-row: 3; }
+  .s-close__head {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.28em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .s-close__lead {
+    font-size: 132px;
+    line-height: 0.96;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .s-close__lead em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-close__sub {
+    margin-top: 36px;
+    font-size: 32px;
+    line-height: 1.45;
+    color: var(--fg-dim);
+    max-width: 1500px;
+  }
+  .s-close__sub b { color: var(--fg); font-weight: 700; }
+  .s-close__bot {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 48px;
+    align-items: end;
+    border-top: 1px solid var(--divider);
+    padding-top: 40px;
+  }
+  .s-close__brand {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .s-close__brand b { color: var(--accent); }
+  .s-close__brand span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--fg-dim);
+    margin-top: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .s-close__cta {
+    text-align: right;
+  }
+  .s-close__cta b {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.24em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 400;
+  }
+  .s-close__cta a {
+    display: block;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+  .s-close__cta a em { color: var(--accent); font-style: normal; }
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+  <!-- ═══════════ 01 TITLE ═══════════ -->
+  <section class="slide s-title" data-label="Title">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Wearable SO-ARM / Manifesto</div>
+      <div class="chrome__r">01 · 09</div>
+    </div>
+    <div class="s-title__L">
+      <div class="s-title__kicker">Maker Faire Tokyo 2026 &nbsp;·&nbsp; <b>Lightning Talk</b></div>
+      <h1 class="s-title__lead">この<em>腕</em>が、<br>いずれ自律する。</h1>
+      <div class="s-title__sub">
+        目指すのは、<b>自律ロボットが農作物を摘む未来</b>。<br>
+        そこへの最短ルートとして、人の手の動きをそのまま転写する<b>ウェアラブル・デュアルアーム</b>を作っている。
+      </div>
+    </div>
+    <div class="s-title__R">
+      <img src="img/cover.jpg" alt="Wearable SO-ARM on stand">
+      <div class="s-title__tag">
+        <b>Wearable SO-ARM 101</b><br>
+        7-DOF × 2 &nbsp;/&nbsp; Cordless
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 02 THESIS ═══════════ -->
+  <section class="slide s-thesis" data-label="Thesis">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Thesis &nbsp;·&nbsp; 残された課題</div>
+      <div class="chrome__r">02 · 09</div>
+    </div>
+    <div class="eyebrow">The Thesis</div>
+    <h2 class="s-thesis__text">
+      <span class="strike">歩く</span>は、<em>できる。</em><br>
+      でも <span class="hit">摘む</span>は、<br>
+      まだ誰も。
+    </h2>
+    <div class="s-thesis__foot">
+      精密に歩く二足歩行ロボットは、すでに市場にある。<br>
+      でも「作物を摘む」「傷口を縫う」「棚から取る」を<b>実用速度</b>でやれる腕は、まだ誰のものでもない。<br>
+      次のブレークスルーは、<b>腕と手先の精密さ</b>にある。
+    </div>
+    <div class="footer">
+      <div><b>r488it</b> / Wearable SO-ARM</div>
+      <div>MFT2026 &nbsp;·&nbsp; #02</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 03 THE ANSWER ═══════════ -->
+  <section class="slide s-answer" data-label="Answer">
+    <div class="chrome" style="color: var(--fg-dim);">
+      <div><span class="chrome__dot"></span>The Answer</div>
+      <div class="chrome__r">03 · 09</div>
+    </div>
+    <div class="s-answer__L">
+      <div class="eyebrow">So I built it.</div>
+      <h2 class="s-answer__huge">
+        だから、<br><em>着る。</em>
+      </h2>
+      <p class="s-answer__body">
+        コードで教えるのではなく、<b>人の動きをそのまま転写する</b>。<br>
+        そのために、人が着る7軸×2本のデュアルアームをゼロから設計した。<br>
+        SO-ARM101に upper_arm_roll / forearm_roll を追加した独自7-DOF構成。
+      </p>
+      <div class="s-answer__specs">
+        <div class="spec">
+          <div class="spec__v"><em>7</em>-DOF</div>
+          <div class="spec__k">per arm</div>
+        </div>
+        <div class="spec">
+          <div class="spec__v">16<em>srv</em></div>
+          <div class="spec__k">dual arm</div>
+        </div>
+        <div class="spec">
+          <div class="spec__v">0<em>wire</em></div>
+          <div class="spec__k">cordless</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-answer__R">
+      <img src="img/wearing.png" alt="Wearable SO-ARM in use">
+      <div class="s-answer__marks">
+        <div class="mark mark--1">shoulder · 3-DOF</div>
+        <div class="mark mark--2">forearm · gripper</div>
+        <div class="mark mark--3">chest · harness</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 04 ROADMAP MAP ═══════════ -->
+  <section class="slide s-map" data-label="Roadmap">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Roadmap &nbsp;·&nbsp; The Map</div>
+      <div class="chrome__r">04 · 09</div>
+    </div>
+    <div class="s-map__head">
+      <h2 class="s-map__title" style="margin: -61.9453px 15.9492px 3.82031px 14.6289px;">人が教え、<br><em>機械が継ぐ。</em></h2>
+      <div class="s-map__legend" style="opacity: 1;">
+        ● 現在地 &nbsp;LEGEND<br>
+        ○ 目的地<br>
+        — ルート
+      </div>
+    </div>
+    <div class="s-map__canvas">
+      <!-- Winding path -->
+      <svg class="s-map__path" viewBox="0 0 1700 560" preserveAspectRatio="none">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff6a1a"/>
+          </marker>
+        </defs>
+        <path d="M 238 440 C 450 360, 600 440, 748 310 S 1100 260, 1292 235"
+              fill="none" stroke="#ff6a1a" stroke-width="2.5"
+              stroke-dasharray="2 10" stroke-linecap="round"
+              marker-end="url(#arr)"/>
+      </svg>
+
+      <!-- Compass -->
+      <svg class="compass" viewBox="0 0 100 100" fill="none" stroke="#9a9a9f" stroke-width="1">
+        <circle cx="50" cy="50" r="38"/>
+        <circle cx="50" cy="50" r="2" fill="#ff6a1a" stroke="none"/>
+        <path d="M50 12 L54 50 L50 14 L46 50 Z" fill="#ff6a1a" stroke="none"/>
+        <path d="M50 88 L54 50 L50 86 L46 50 Z" fill="#9a9a9f" stroke="none"/>
+        <text x="50" y="9" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#ff6a1a" stroke="none">N</text>
+      </svg>
+
+      <!-- Phase pins -->
+      <div class="pin pin--1">
+        <div class="pin__card">
+          <div class="pin__phase">Phase 0 · 現在地</div>
+          <div class="pin__title">踊って、<br>身体と同期させる</div>
+          <div class="pin__desc">16サーボの<b style="color:var(--fg)">協調制御</b>を全身の動きで検証中。人の身体と滑らかに同期できるかを確かめるフェーズ。</div>
+        </div>
+        <div class="pin__stem"></div>
+      </div>
+      <div class="pin pin--2">
+        <div class="pin__card">
+          <div class="pin__phase">Phase 1 · 次</div>
+          <div class="pin__title">遠隔で解き、<br>データを貯める</div>
+          <div class="pin__desc">力覚FB付き<b style="color:var(--fg)">バイラテラル遠隔</b>でバニラ受粉を成功させる。成功した動きが、そのまま教師データに。</div>
+        </div>
+        <div class="pin__stem"></div>
+      </div>
+      <div class="pin pin--3 pin--future pin--below">
+        <div class="pin__card">
+          <div class="pin__phase">Phase 2 · その先</div>
+          <div class="pin__title">自律で、<br>他作物へ</div>
+          <div class="pin__desc">貯めたデータで徐々に<b style="color:var(--fg)">自律化</b>。同じ指先の技術をトマト・イチゴ・果樹へ。<b style="color:var(--fg)">フィジカル AI × 農業</b>の本番。</div>
+        </div>
+        <div class="pin__stem"></div>
+      </div>
+    </div>
+    <div class="footer">
+      <div><b>r488it</b> / Wearable SO-ARM</div>
+      <div>MAP &nbsp;·&nbsp; dance → pollinate → assist</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 05 PHASE 1 DETAIL ═══════════ -->
+  <section class="slide s-phase" data-label="Phase1">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Phase 1 &nbsp;·&nbsp; Vanilla Pollination</div>
+      <div class="chrome__r">05 · 09</div>
+    </div>
+    <div class="s-phase__L">
+      <div class="s-phase__tag">PHASE 1 &nbsp;·&nbsp; 次</div>
+      <h2 class="s-phase__title">最初の<em>一輪、</em><br>バニラの受粉。</h2>
+      <p class="s-phase__body">
+        指先ミリ単位の精密作業を、<b>力覚フィードバック付きバイラテラル遠隔操作</b>で解く。<br>
+        解くと同時に、3D形状・画像・軌道を同期収集。<br>
+        <b>タスクを解くたびに、学習データが自動で貯まる</b>設計。
+      </p>
+      <div class="s-phase__quote">
+        難しいタスクを解く瞬間が、<br>
+        そのまま自律化への第一歩になる。
+      </div>
+    </div>
+    <div class="s-phase__R">
+      <div class="s-phase__dia">Control loop &nbsp;/&nbsp; teleop → semi-auto</div>
+      <div class="flow">
+        <div class="flow__step">
+          <div class="flow__n">01</div>
+          <div>
+            <div class="flow__t">人の手 → ウェアラブル</div>
+            <div class="flow__sub">INPUT · posture capture</div>
+          </div>
+          <div class="flow__sub" style="color: var(--fg-faint);">master</div>
+        </div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step flow__step--hot">
+          <div class="flow__n">02</div>
+          <div>
+            <div class="flow__t">バイラテラル制御（力覚FB）</div>
+            <div class="flow__sub">core · bilateral w/ force feedback</div>
+          </div>
+          <div class="flow__sub">HOT</div>
+        </div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step">
+          <div class="flow__n">03</div>
+          <div>
+            <div class="flow__t">小型マニピュレータが受粉</div>
+            <div class="flow__sub">SLAVE · tip-level precision</div>
+          </div>
+          <div class="flow__sub" style="color: var(--fg-faint);">slave</div>
+        </div>
+        <div class="flow__arrow">↓</div>
+        <div class="flow__step">
+          <div class="flow__n">04</div>
+          <div>
+            <div class="flow__t">3D形状・画像・軌道を収集</div>
+            <div class="flow__sub">LOG · dataset for autonomy</div>
+          </div>
+          <div class="flow__sub" style="color: var(--fg-faint);">log</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHASE 1 EVIDENCE (video) -->
+  <section class="slide s-dance" data-label="Phase1Evidence">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Phase 1 &nbsp;·&nbsp; Why it's hard</div>
+      <div class="chrome__r">06 · 09</div>
+    </div>
+    <div class="s-dance__L">
+      <div class="s-dance__tag">— The task · Phase 1</div>
+      <h2 class="s-dance__title"><em>1ミリ</em>の、<br>職人仕事。</h2>
+      <p class="s-dance__body">
+        バニラの<b>人工授粉</b>を人がこなしている映像。<br>
+        花弁を傷めず、柱頭に花粉を運ぶ——<b>指先ミリ単位</b>の精密作業。<br>
+        これが、ロボットが越えるべき<b>腕と手先</b>のハードル。
+      </p>
+      <div class="s-dance__stats">
+        <div class="s-dance__stat"><b>〜4s</b><span>per flower</span></div>
+        <div class="s-dance__stat"><b>〜1mm</b><span>tolerance</span></div>
+        <div class="s-dance__stat"><b>×1000</b><span>flowers/day</span></div>
+      </div>
+    </div>
+    <div class="s-dance__R s-dance__corners">
+      <i></i>
+      <video class="s-dance__video" src="arm-dance.mp4" autoplay muted loop playsinline preload="auto"></video>
+      <div class="s-dance__scan"></div>
+      <div class="s-dance__reticle">FIELD · HUMAN</div>
+      <div class="s-dance__caption">VANILLA_01 <span>human · hand pollination</span></div>
+      <i></i>
+    </div>
+  </section>
+
+  <!-- ═══════════ 07 DATA LOOP ═══════════ -->
+  <section class="slide s-loop" data-label="DataLoop">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Data Flywheel &nbsp;·&nbsp; teleop → autonomy</div>
+      <div class="chrome__r">07 · 09</div>
+    </div>
+    <div class="eyebrow">Data Flywheel</div>
+    <h2 class="s-loop__title">
+      遠隔が、<br>やがて<em>自律</em>になる。
+    </h2>
+    <div class="loopBox">
+      <div class="loopBox__cell">
+        <div class="loopBox__n">01 · OPERATE</div>
+        <div class="loopBox__t">人が<br>遠隔操作</div>
+        <div class="loopBox__d">ウェアラブルで動きを捕捉。力覚を返して、人の指先の器用さを現場に届ける。</div>
+      </div>
+      <div class="loopBox__cell">
+        <div class="loopBox__n">02 · CAPTURE</div>
+        <div class="loopBox__t">マニピ中の<br>3D・画像を収集</div>
+        <div class="loopBox__d">点群・RGB・軌道・力データを同期して蓄積。ラベルは「人が成功した動き」そのもの。</div>
+      </div>
+      <div class="loopBox__cell">
+        <div class="loopBox__n">03 · LEARN</div>
+        <div class="loopBox__t">把持位置推定<br>＋軌道計画</div>
+        <div class="loopBox__d">認識・把持・軌道生成を学習。同じタスクをモデルがどこまで再現できるかを段階評価。</div>
+      </div>
+      <div class="loopBox__cell">
+        <div class="loopBox__n">04 · HANDOFF</div>
+        <div class="loopBox__t">徐々に<br>自律へ移行</div>
+        <div class="loopBox__d">簡単な部分から機械に任せ、難所は人に戻す。自律度は<em>タスク粒度</em>で滑らかに上げていく。</div>
+      </div>
+    </div>
+    <p class="s-loop__foot">
+      <b>遠隔で解いた成功例</b>が、次の<em>自律</em>のための教師データになる。<br>
+      Phase 1 は、タスクを解くと同時に<b>学習データ工場</b>として動く設計。
+    </p>
+  </section>
+
+  <!-- ═══════════ 07 HORIZON VISION ═══════════ -->
+  <section class="slide s-vision" data-label="Horizon">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Vision &nbsp;·&nbsp; Physical AI × Agriculture</div>
+      <div class="chrome__r">08 · 09</div>
+    </div>
+    <div class="s-vision__L">
+      <div class="s-vision__num">7</div>
+      <div class="s-vision__kicker">Horizon &nbsp;·&nbsp; 水平展開</div>
+      <h2 class="s-vision__title">
+        一輪解ければ、<br><em>全部解ける。</em>
+      </h2>
+      <p class="s-vision__body">
+        バニラの人工授粉で磨いた<b>指先の技術</b>と<b>学習データ</b>は、
+        そのままトマトの摘実・イチゴの摘果・果樹の剪定へ横展開できる。<br>
+        その先にあるのが、<b>フィジカル AI × 農業</b>。
+      </p>
+    </div>
+    <div class="s-vision__R">
+      <div class="axis">Positioning · 精密さ × コスト</div>
+      <div class="matrix">
+        <div class="matrix__grid"></div>
+        <div class="matrix__axX">
+          <span>← 低コスト</span>
+          <span>高コスト →</span>
+        </div>
+        <div class="matrix__axY">
+          <span>↑ 精密作業</span>
+          <span>↓ 粗作業</span>
+        </div>
+        <!-- Existing players -->
+        <div class="dot dot--outline" style="top: 12%; left: 85%;">
+          <div class="dot__lbl">既存・手術支援ロボ</div>
+        </div>
+        <div class="dot dot--outline" style="top: 70%; left: 20%;">
+          <div class="dot__lbl">既存・産業アーム</div>
+        </div>
+        <div class="dot dot--outline" style="top: 55%; left: 60%;">
+          <div class="dot__lbl">協働ロボ</div>
+        </div>
+        <!-- Us -->
+        <div class="dot dot--ours" style="top: 22%; left: 22%;">
+          <div class="dot__lbl">WEARABLE SO-ARM</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 08 CLOSING ═══════════ -->
+  <section class="slide s-close" data-label="Closing">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Follow the build</div>
+      <div class="chrome__r">09 · 09</div>
+    </div>
+    <div class="s-close__lead-wrap">
+      <div class="s-close__head">— End of Lightning Talk —</div>
+      <h1 class="s-close__lead">
+        歩ける機械より、<br><em>摘める腕</em>を。
+      </h1>
+      <p class="s-close__sub">
+        Phase 0 は踊る。Phase 1 は摘む。Phase 2 は任せる。<br>
+        <b>ウェアラブルは、自律ロボットへの最短ルート。</b><br>
+        一本の腕から、農業の未来を書き直す。
+      </p>
+    </div>
+    <div class="s-close__video">
+      <video src="dance.mp4" autoplay muted loop playsinline preload="auto"></video>
+      <div class="s-close__video__cap"><b>●</b> &nbsp;DANCE · PHASE 0</div>
+    </div>
+    <div class="s-close__bot">
+      <div class="s-close__brand">
+        <b>r488it</b> &nbsp;/&nbsp; Wearable SO-ARM Project
+        <span>Physical AI × Maker × Tokyo / MFT2026</span>
+      </div>
+      <div class="s-close__cta">
+        <b>Follow the build</b>
+        <a href="#">X &nbsp;<em>@taku_sid</em></a>
+        <a href="#">GitHub &nbsp;<em>/wearable-so-arm</em></a>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+</body>
+</html>

@@ -83,6 +83,11 @@
     text-transform: uppercase;
   }
   .nav__brand span { color: var(--accent); }
+  .nav__links {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
   .nav__cta {
     color: var(--fg);
     text-decoration: none;
@@ -961,7 +966,10 @@
 
 <nav class="nav">
   <div class="nav__brand">Wearable-<span>SO-ARM</span></div>
-  <a class="nav__cta" href="#cta">MFT 2026</a>
+  <div class="nav__links">
+    <a class="nav__cta" href="./Deck/Wearable%20SO-ARM%20Deck_v1.html" target="_blank" rel="noopener">Deck</a>
+    <a class="nav__cta" href="#cta">MFT 2026</a>
+  </div>
 </nav>
 
 <!-- ═══════ 01 HERO ═══════ -->
