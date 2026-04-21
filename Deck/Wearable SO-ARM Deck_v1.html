@@ -196,6 +196,20 @@
     max-width: 1300px;
   }
   .s-thesis__foot b { color: var(--fg); font-weight: 500; }
+  .s-thesis__text,
+  .s-thesis__foot { max-width: 980px; }
+  .s-thesis__video {
+    position: absolute;
+    right: 112px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 640px;
+    height: 720px;
+    object-fit: cover;
+    border-radius: 8px;
+    z-index: 2;
+    background: #000;
+  }
 
   /* ───────── 03: THE ANSWER (wearable) ───────── */
   .s-answer {
@@ -1049,6 +1063,7 @@
       でも「作物を摘む」「傷口を縫う」「棚から取る」を<b>実用速度</b>でやれる腕は、まだ誰のものでもない。<br>
       次のブレークスルーは、<b>腕と手先の精密さ</b>にある。
     </div>
+    <video class="s-thesis__video" src="./lv_0_20260412205641.mp4" autoplay loop playsinline controls></video>
     <div class="footer">
       <div><b>r488it</b> / Wearable SO-ARM</div>
       <div>MFT2026 &nbsp;·&nbsp; #02</div>
