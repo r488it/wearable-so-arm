@@ -1,0 +1,2181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>DataScience Trends 2026 — BN・EH研修</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0e;
+    --fg: #f5f5f7;
+    --fg-dim: #9a9a9f;
+    --fg-faint: #4a4a50;
+    --accent: #ff6a1a;
+    --accent-2: #ffd447;
+    --divider: #23232a;
+    --line: #23232a;
+    --font-jp: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --font-serif: "Instrument Serif", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #000; color: var(--fg); font-family: var(--font-jp); -webkit-font-smoothing: antialiased; }
+
+  section.slide {
+    background: var(--bg);
+    color: var(--fg);
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-jp);
+  }
+  .chrome {
+    position: absolute;
+    top: 48px; left: 64px; right: 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    z-index: 5;
+  }
+  .chrome__dot { display: inline-block; width: 7px; height: 7px; background: var(--accent); border-radius: 100px; margin-right: 10px; vertical-align: middle; }
+  .chrome__r { letter-spacing: 0.28em; }
+
+  .footer {
+    position: absolute;
+    bottom: 44px; left: 64px; right: 64px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    z-index: 5;
+  }
+  .footer b { color: var(--fg); font-weight: 500; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .eyebrow::before {
+    content: ''; width: 36px; height: 1px; background: var(--accent);
+  }
+
+  /* ───────── COVER ───────── */
+  .s-cover {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+  .s-cover__L {
+    padding: 180px 80px 100px 112px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .s-cover__kicker {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.3em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .s-cover__kicker b { color: var(--accent); font-weight: 500; }
+  .s-cover__lead {
+    font-size: 132px;
+    line-height: 0.96;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+    margin-bottom: 36px;
+    text-wrap: balance;
+  }
+  .s-cover__lead em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-cover__sub {
+    font-size: 28px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+    max-width: 680px;
+    font-weight: 400;
+  }
+  .s-cover__sub b { color: var(--fg); font-weight: 700; }
+  .s-cover__R {
+    position: relative;
+    background: linear-gradient(140deg, #16160f 0%, #0b0b0e 70%);
+    overflow: hidden;
+  }
+  .s-cover__R::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px) 0 0 / 40px 40px,
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px) 0 0 / 40px 40px;
+  }
+  .s-cover__R::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 70% 50%, rgba(255,106,26,0.22) 0%, transparent 55%);
+  }
+  .s-cover__year {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 520px;
+    color: var(--accent);
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    z-index: 2;
+  }
+  .s-cover__tag {
+    position: absolute;
+    right: 48px; bottom: 48px;
+    z-index: 3;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    line-height: 1.45;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    text-align: right;
+  }
+  .s-cover__tag b { color: var(--accent); font-weight: 500; }
+
+  /* ───────── THESIS ───────── */
+  .s-thesis {
+    padding: 180px 112px 140px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-thesis__text {
+    font-size: 96px;
+    line-height: 1.12;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    max-width: 1700px;
+    text-wrap: balance;
+  }
+  .s-thesis__text .strike {
+    position: relative;
+    color: var(--fg-faint);
+    font-weight: 400;
+  }
+  .s-thesis__text .strike::after {
+    content: '';
+    position: absolute;
+    left: -4px; right: -4px; top: 54%;
+    height: 6px;
+    background: var(--fg-faint);
+    transform: rotate(-1.5deg);
+  }
+  .s-thesis__text em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--fg);
+  }
+  .s-thesis__text .hit {
+    color: var(--accent);
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    padding-left: 0.35em;
+  }
+  .s-thesis__text .hit::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0.08em; bottom: 0.08em;
+    width: 4px;
+    background: var(--accent);
+  }
+  .s-thesis__foot {
+    margin-top: 72px;
+    font-size: 26px;
+    color: var(--fg-dim);
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    line-height: 1.65;
+    max-width: 1400px;
+  }
+  .s-thesis__foot b { color: var(--fg); font-weight: 500; }
+
+  /* ───────── TIMELINE (2023→2026) ───────── */
+  .s-timeline {
+    padding: 140px 112px 120px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-timeline__head {
+    margin-bottom: 72px;
+  }
+  .s-timeline__title {
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .s-timeline__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-timeline__lead {
+    font-size: 26px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+    max-width: 1400px;
+  }
+  .s-timeline__lead b { color: var(--fg); font-weight: 700; }
+  .tl-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--divider);
+    position: relative;
+  }
+  .tl-grid::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0;
+    width: 25%; height: 3px;
+    background: var(--accent);
+  }
+  .tl-cell {
+    padding: 28px 28px 28px 0;
+    border-right: 1px solid var(--divider);
+    position: relative;
+  }
+  .tl-cell:last-child { border-right: none; padding-right: 0; }
+  .tl-cell--now {
+    background: rgba(255,106,26,0.04);
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .tl-cell__y {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    margin-bottom: 12px;
+  }
+  .tl-cell--now .tl-cell__y { color: var(--accent); }
+  .tl-cell__t {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 16px;
+    text-wrap: balance;
+  }
+  .tl-cell--now .tl-cell__t { color: var(--fg); }
+  .tl-cell__t em { font-family: var(--font-serif); font-style: italic; font-weight: 400; color: var(--accent); }
+  .tl-cell__list {
+    list-style: none;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--fg-dim);
+  }
+  .tl-cell__list li {
+    padding-left: 14px;
+    position: relative;
+  }
+  .tl-cell__list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--fg-faint);
+  }
+  .tl-cell--now .tl-cell__list li::before { color: var(--accent); }
+  .tl-cell--now .tl-cell__list { color: var(--fg); }
+
+  /* ───────── TREND DETAIL (split with code-like callout) ───────── */
+  .s-trend {
+    padding: 140px 112px 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+  .s-trend__L { display: flex; flex-direction: column; justify-content: center; }
+  .s-trend__tag {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .s-trend__title {
+    font-size: 92px;
+    line-height: 0.98;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: 36px;
+    text-wrap: balance;
+  }
+  .s-trend__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-trend__body {
+    font-size: 24px;
+    line-height: 1.7;
+    color: var(--fg-dim);
+    max-width: 700px;
+  }
+  .s-trend__body b { color: var(--fg); font-weight: 700; }
+  .s-trend__quote {
+    margin-top: 36px;
+    padding: 22px 26px;
+    border-left: 3px solid var(--accent);
+    background: rgba(255,106,26,0.04);
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--fg);
+    font-weight: 500;
+    max-width: 700px;
+  }
+  .s-trend__R {
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-trend__dia {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .stat-cell {
+    border: 1px solid var(--divider);
+    padding: 24px 26px;
+    position: relative;
+  }
+  .stat-cell--hot {
+    border-color: var(--accent);
+    background: rgba(255,106,26,0.05);
+  }
+  .stat-cell__k {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .stat-cell--hot .stat-cell__k { color: var(--accent); }
+  .stat-cell__v {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .stat-cell__v em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .stat-cell__d {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+  }
+  .players {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 24px;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    color: var(--fg-dim);
+    letter-spacing: 0.1em;
+  }
+  .players b { color: var(--fg); font-weight: 500; }
+
+  /* ───────── MATRIX (MCP/A2A etc) ───────── */
+  .s-proto {
+    padding: 140px 112px 120px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-proto__title {
+    font-size: 92px;
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-bottom: 18px;
+  }
+  .s-proto__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-proto__lead {
+    font-size: 24px;
+    line-height: 1.65;
+    color: var(--fg-dim);
+    max-width: 1400px;
+    margin-bottom: 56px;
+  }
+  .s-proto__lead b { color: var(--fg); font-weight: 700; }
+  .proto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .proto-card {
+    border: 1px solid var(--divider);
+    padding: 36px 40px;
+    position: relative;
+  }
+  .proto-card--hot {
+    border-color: var(--accent);
+    background: rgba(255,106,26,0.04);
+  }
+  .proto-card__k {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.22em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .proto-card--hot .proto-card__k { color: var(--accent); }
+  .proto-card__t {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 18px;
+  }
+  .proto-card__t em { font-family: var(--font-serif); font-style: italic; font-weight: 400; color: var(--accent); }
+  .proto-card__d {
+    font-size: 20px;
+    line-height: 1.65;
+    color: var(--fg-dim);
+    margin-bottom: 22px;
+  }
+  .proto-card__d b { color: var(--fg); font-weight: 600; }
+  .proto-card__meta {
+    display: flex;
+    gap: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--divider);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.2em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+  }
+  .proto-card__meta span b { color: var(--fg); font-weight: 500; }
+  .proto-card--hot .proto-card__meta { border-top-color: rgba(255,106,26,0.3); }
+
+  /* ───────── ROBOTS LANDSCAPE ───────── */
+  .s-robots {
+    padding: 140px 112px 120px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-robots__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+    gap: 80px;
+  }
+  .s-robots__title {
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .s-robots__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-robots__lead {
+    font-size: 22px;
+    line-height: 1.65;
+    color: var(--fg-dim);
+    max-width: 560px;
+  }
+  .s-robots__lead b { color: var(--fg); font-weight: 700; }
+  .robots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .robot-card {
+    border: 1px solid var(--divider);
+    padding: 32px 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+  }
+  .robot-card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+  }
+  .robot-card__head b { color: var(--accent); font-weight: 500; }
+  .robot-card__name {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+  .robot-card__name em { font-family: var(--font-serif); font-style: italic; font-weight: 400; color: var(--accent); }
+  .robot-card__maker {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-top: -6px;
+  }
+  .robot-card__d {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--fg-dim);
+    margin-top: 4px;
+  }
+  .robot-card__d b { color: var(--fg); font-weight: 600; }
+  .robot-card__tag {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--divider);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  /* ───────── SECTION DIVIDER ───────── */
+  .s-divider {
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    padding: 120px;
+    background: linear-gradient(160deg, #1a0f08 0%, #0b0b0e 70%);
+    position: relative;
+  }
+  .s-divider__num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 400px;
+    line-height: 0.8;
+    color: var(--accent);
+    position: absolute;
+    top: 80px; right: -10px;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .s-divider__kicker {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    letter-spacing: 0.32em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    z-index: 2;
+  }
+  .s-divider__title {
+    font-size: 180px;
+    font-weight: 900;
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    text-align: center;
+    z-index: 2;
+    text-wrap: balance;
+  }
+  .s-divider__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-divider__sub {
+    margin-top: 36px;
+    font-size: 28px;
+    line-height: 1.5;
+    color: var(--fg-dim);
+    text-align: center;
+    max-width: 1200px;
+    z-index: 2;
+  }
+  .s-divider__sub b { color: var(--fg); font-weight: 700; }
+
+  /* ───────── TITLE (so-arm reused) ───────── */
+  .s-title { display: grid; grid-template-columns: 1.1fr 0.9fr; }
+  .s-title__L {
+    padding: 180px 80px 100px 112px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .s-title__kicker {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.3em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .s-title__kicker b { color: var(--accent); font-weight: 500; }
+  .s-title__lead {
+    font-size: 120px;
+    line-height: 0.98;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+    margin-bottom: 32px;
+    text-wrap: balance;
+  }
+  .s-title__lead em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-title__sub {
+    font-size: 28px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+    max-width: 640px;
+    font-weight: 400;
+  }
+  .s-title__sub b { color: var(--fg); font-weight: 700; }
+  .s-title__R {
+    position: relative;
+    background: linear-gradient(140deg, #16160f 0%, #0b0b0e 70%);
+    overflow: hidden;
+  }
+  .s-title__R img {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    filter: saturate(1.05) contrast(1.05);
+  }
+  .s-title__R::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 80% 50%, transparent 35%, rgba(11,11,14,0.92) 90%);
+  }
+  .s-title__tag {
+    position: absolute;
+    right: 48px; bottom: 48px;
+    z-index: 3;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    line-height: 1.45;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    text-align: right;
+  }
+  .s-title__tag b { color: var(--accent); font-weight: 500; }
+
+  /* ───────── ANSWER (so-arm reused) ───────── */
+  .s-answer {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+  }
+  .s-answer__L {
+    padding: 180px 64px 140px 112px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-answer__huge {
+    font-size: 140px;
+    line-height: 0.94;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 40px;
+    text-wrap: balance;
+  }
+  .s-answer__huge em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-answer__body {
+    font-size: 28px;
+    line-height: 1.6;
+    color: var(--fg-dim);
+    max-width: 620px;
+  }
+  .s-answer__body b { color: var(--fg); font-weight: 700; }
+  .s-answer__specs {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 620px;
+  }
+  .spec {
+    border-top: 1px solid var(--divider);
+    padding-top: 16px;
+    font-family: var(--font-mono);
+  }
+  .spec__v {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .spec__v em { color: var(--accent); font-style: normal; }
+  .spec__k {
+    font-size: 24px;
+    letter-spacing: 0.2em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+  }
+  .s-answer__R {
+    position: relative;
+    background: #111;
+    overflow: hidden;
+  }
+  .s-answer__R img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+  }
+  .s-answer__R::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(11,11,14,0.6) 0%, transparent 25%, transparent 75%, rgba(11,11,14,0.25) 100%);
+  }
+  .s-answer__marks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .mark {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg);
+    text-transform: uppercase;
+  }
+  .mark::before {
+    content: '';
+    display: inline-block;
+    width: 10px; height: 10px;
+    border: 1px solid var(--accent);
+    background: rgba(255,106,26,0.35);
+    margin-right: 10px;
+    vertical-align: middle;
+    border-radius: 100px;
+  }
+  .mark--1 { top: 38%; left: 4%; }
+  .mark--2 { top: 54%; right: 4%; text-align: right; }
+  .mark--2::before { margin-right: 0; margin-left: 10px; order: 2; }
+  .mark--2 { display: flex; flex-direction: row-reverse; align-items: center; }
+  .mark--3 { top: 46%; left: 34%; }
+
+  /* ───────── ROADMAP MAP (so-arm reused) ───────── */
+  .s-map {
+    padding: 140px 96px 120px;
+    display: flex; flex-direction: column;
+  }
+  .s-map__head {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 48px;
+  }
+  .s-map__title {
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+  .s-map__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-map__legend {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 2;
+  }
+  .s-map__canvas {
+    flex: 1;
+    position: relative;
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    background:
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px) 0 0 / 56px 56px,
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px) 0 0 / 56px 56px,
+      radial-gradient(ellipse at 50% 50%, #131318 0%, #0b0b0e 70%);
+    overflow: hidden;
+  }
+  .s-map__canvas::before {
+    content: 'N ↑';
+    position: absolute;
+    top: 20px; right: 24px;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.2em;
+    color: var(--fg-faint);
+  }
+  .s-map__path {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+  }
+  .pin {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    width: 420px;
+  }
+  .pin--below {
+    transform: translate(-50%, 0);
+    display: flex;
+    flex-direction: column;
+  }
+  .pin--below .pin__stem {
+    order: -1;
+  }
+  .pin--below .pin__stem::before {
+    top: -6px;
+    bottom: auto;
+  }
+  .pin--below .pin__card {
+    border-left: 3px solid var(--accent);
+  }
+  .pin__stem {
+    width: 2px; height: 48px;
+    background: var(--accent);
+    margin: 0 auto;
+    position: relative;
+  }
+  .pin__stem::before {
+    content: ''; position: absolute;
+    left: 50%; bottom: -6px;
+    transform: translateX(-50%);
+    width: 14px; height: 14px;
+    background: var(--accent);
+    border-radius: 100px;
+    box-shadow: 0 0 0 6px rgba(255,106,26,0.2);
+  }
+  .pin__card {
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-left: 3px solid var(--accent);
+    padding: 18px 22px 20px;
+    margin-bottom: 0;
+  }
+  .pin__phase {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .pin__title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.18;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .pin__desc {
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+  }
+  .pin--1 { left: 14%; top: 68%; }
+  .pin--2 { left: 44%; top: 48%; }
+  .pin--3 { left: 76%; top: 42%; }
+  .pin--future { opacity: 0.62; }
+  .pin--future .pin__stem { background: var(--fg-faint); }
+  .pin--future .pin__stem::before { background: var(--fg-faint); box-shadow: 0 0 0 6px rgba(154,154,159,0.15); }
+  .pin--future .pin__card { border-left-color: var(--fg-faint); }
+  .pin--future .pin__phase { color: var(--fg-dim); }
+
+  .compass {
+    position: absolute;
+    left: 40px; bottom: 32px;
+    width: 96px; height: 96px;
+    opacity: 0.55;
+  }
+
+  /* ───────── DANCE / VIDEO EVIDENCE (so-arm reused) ───────── */
+  .s-dance {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #050507;
+    overflow: hidden;
+  }
+  .s-dance__L {
+    padding: 140px 96px 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 32px;
+    position: relative;
+    z-index: 2;
+  }
+  .s-dance__tag {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .s-dance__title {
+    font-size: 96px;
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .s-dance__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .s-dance__body {
+    font-size: 24px;
+    line-height: 1.65;
+    color: var(--fg-dim);
+    max-width: 620px;
+  }
+  .s-dance__body b { color: var(--fg); font-weight: 600; }
+  .s-dance__stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 8px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .s-dance__stat b {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 44px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .s-dance__stat span {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+  }
+  .s-dance__R {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+  }
+  .s-dance__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(1.05) saturate(1.05);
+  }
+  .s-dance__scan {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.55) 100%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0) 0, rgba(255,255,255,0) 3px, rgba(255,255,255,0.025) 3px, rgba(255,255,255,0.025) 4px);
+  }
+  .s-dance__reticle {
+    position: absolute;
+    top: 96px; right: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .s-dance__reticle::before {
+    content: '';
+    width: 10px; height: 10px;
+    border-radius: 100px;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(255,106,26,0.8);
+    animation: recpulse 1.4s ease-out infinite;
+  }
+  @keyframes recpulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,106,26,0.8); }
+    100% { box-shadow: 0 0 0 18px rgba(255,106,26,0); }
+  }
+  .s-dance__caption {
+    position: absolute;
+    left: 32px; bottom: 32px;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    color: var(--fg);
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 14px;
+    border-left: 2px solid var(--accent);
+    backdrop-filter: blur(8px);
+  }
+  .s-dance__caption span { color: var(--fg-dim); margin-left: 10px; }
+  .s-dance__corners::before,
+  .s-dance__corners::after,
+  .s-dance__corners > i:first-child,
+  .s-dance__corners > i:last-child {
+    content: '';
+    position: absolute;
+    width: 40px; height: 40px;
+    border: 2px solid var(--accent);
+    pointer-events: none;
+  }
+  .s-dance__corners::before { top: 24px; left: 24px; border-right: 0; border-bottom: 0; }
+  .s-dance__corners::after  { top: 24px; right: 24px; border-left: 0; border-bottom: 0; }
+  .s-dance__corners > i:first-child { bottom: 24px; left: 24px; border-right: 0; border-top: 0; }
+  .s-dance__corners > i:last-child  { bottom: 24px; right: 24px; border-left: 0; border-top: 0; }
+
+  /* ───────── PHASE DETAIL (so-arm reused) ───────── */
+  .s-phase {
+    padding: 140px 112px 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+  .s-phase__L { display: flex; flex-direction: column; justify-content: center; }
+  .s-phase__tag {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .s-phase__title {
+    font-size: 88px;
+    line-height: 1.0;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    margin-bottom: 36px;
+  }
+  .s-phase__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-phase__body {
+    font-size: 24px;
+    line-height: 1.7;
+    color: var(--fg-dim);
+    max-width: 680px;
+  }
+  .s-phase__body b { color: var(--fg); font-weight: 700; }
+  .s-phase__quote {
+    margin-top: 40px;
+    padding: 24px 28px;
+    border-left: 3px solid var(--accent);
+    background: rgba(255,106,26,0.04);
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--fg);
+    font-weight: 500;
+    max-width: 680px;
+  }
+  .s-phase__R {
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-phase__dia {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .flow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .flow__step {
+    border: 1px solid var(--divider);
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    gap: 18px;
+    align-items: center;
+    position: relative;
+  }
+  .flow__step--hot {
+    border-color: var(--accent);
+    background: rgba(255,106,26,0.05);
+  }
+  .flow__n {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--fg-faint);
+    letter-spacing: -0.02em;
+  }
+  .flow__step--hot .flow__n { color: var(--accent); }
+  .flow__t { font-size: 26px; font-weight: 600; letter-spacing: -0.005em; }
+  .flow__sub {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.2em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+  }
+  .flow__step--hot .flow__sub { color: var(--accent); }
+  .flow__arrow {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    color: var(--fg-faint);
+    text-align: center;
+    padding: 2px 0;
+  }
+
+  /* ───────── DATA LOOP (so-arm reused) ───────── */
+  .s-loop {
+    padding: 140px 112px 120px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .s-loop__title {
+    font-size: 88px;
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-bottom: 64px;
+    max-width: 1500px;
+  }
+  .s-loop__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .loopBox {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    position: relative;
+    max-width: 1700px;
+  }
+  .loopBox__cell {
+    border: 1px solid var(--divider);
+    padding: 28px 28px 80px;
+    position: relative;
+    min-height: 260px;
+  }
+  .loopBox__n {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .loopBox__t {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -0.015em;
+  }
+  .loopBox__d {
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--fg-dim);
+  }
+  .loopBox__cell::after {
+    content: '→';
+    position: absolute;
+    right: -22px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 28px;
+    color: var(--fg-faint);
+    z-index: 2;
+  }
+  .loopBox__cell:last-child::after { content: '↻'; right: -22px; color: var(--accent); }
+  .s-loop__foot {
+    margin-top: 56px;
+    font-size: 26px;
+    color: var(--fg-dim);
+    max-width: 1400px;
+    line-height: 1.55;
+  }
+  .s-loop__foot b { color: var(--fg); font-weight: 700; }
+  .s-loop__foot em { color: var(--accent); font-style: normal; font-weight: 700; }
+
+  /* ───────── VISION (so-arm reused) ───────── */
+  .s-vision {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .s-vision__L {
+    background: linear-gradient(160deg, #1a0f08 0%, #0b0b0e 70%);
+    padding: 160px 80px 140px 112px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .s-vision__num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 360px;
+    line-height: 0.8;
+    color: var(--accent);
+    position: absolute;
+    top: 60px; right: -30px;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .s-vision__kicker {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 2;
+  }
+  .s-vision__title {
+    font-size: 108px;
+    line-height: 0.96;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 36px;
+    position: relative;
+    z-index: 2;
+  }
+  .s-vision__title em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-vision__body {
+    font-size: 26px;
+    line-height: 1.6;
+    color: var(--fg-dim);
+    max-width: 620px;
+    position: relative;
+    z-index: 2;
+  }
+  .s-vision__body b { color: var(--fg); font-weight: 700; }
+  .s-vision__R {
+    padding: 160px 112px 140px 80px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-left: 1px solid var(--divider);
+  }
+  .axis {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.22em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .matrix {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.1;
+    max-width: 620px;
+  }
+  .matrix__grid {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--divider);
+  }
+  .matrix__grid::before, .matrix__grid::after {
+    content: '';
+    position: absolute;
+    background: var(--divider);
+  }
+  .matrix__grid::before { left: 50%; top: 0; bottom: 0; width: 1px; }
+  .matrix__grid::after  { top: 50%; left: 0; right: 0; height: 1px; }
+  .matrix__axX, .matrix__axY {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    letter-spacing: 0.2em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+  }
+  .matrix__axX { bottom: -28px; left: 0; right: 0; display: flex; justify-content: space-between; }
+  .matrix__axY { top: 0; bottom: 0; left: -220px; width: 200px; display: flex; flex-direction: column; justify-content: space-between; text-align: right; }
+  .dot {
+    position: absolute;
+    width: 12px; height: 12px;
+    border-radius: 100px;
+    transform: translate(-50%, -50%);
+  }
+  .dot--outline { border: 1.5px solid var(--fg-dim); background: transparent; }
+  .dot--ours {
+    width: 22px; height: 22px;
+    background: var(--accent);
+    box-shadow: 0 0 0 8px rgba(255,106,26,0.2);
+  }
+  .dot__lbl {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .dot--ours .dot__lbl {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 22px;
+    top: 22px;
+  }
+
+  /* ───────── CLOSING (so-arm reused) ───────── */
+  .s-close {
+    padding: 120px 112px 80px;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    column-gap: 80px;
+    row-gap: 40px;
+  }
+  .s-close > .chrome { grid-column: 1 / 3; grid-row: 1; }
+  .s-close__lead-wrap { grid-column: 1 / 2; grid-row: 2; align-self: center; }
+  .s-close__video {
+    grid-column: 2 / 3;
+    grid-row: 2;
+    position: relative;
+    align-self: center;
+    aspect-ratio: 9 / 16;
+    max-height: 720px;
+    justify-self: end;
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+    border: 1px solid var(--divider);
+    background: #000;
+  }
+  .s-close__video video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .s-close__video::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 70%, rgba(11,11,14,0.5) 100%);
+    pointer-events: none;
+  }
+  .s-close__video__cap {
+    position: absolute;
+    left: 14px; bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .s-close__video__cap b { color: var(--accent); font-weight: 400; }
+  .s-close__bot { grid-column: 1 / 3; grid-row: 3; }
+  .s-close__head {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.28em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .s-close__lead {
+    font-size: 132px;
+    line-height: 0.96;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .s-close__lead em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .s-close__sub {
+    margin-top: 36px;
+    font-size: 32px;
+    line-height: 1.45;
+    color: var(--fg-dim);
+    max-width: 1500px;
+  }
+  .s-close__sub b { color: var(--fg); font-weight: 700; }
+  .s-close__bot {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 48px;
+    align-items: end;
+    border-top: 1px solid var(--divider);
+    padding-top: 40px;
+  }
+  .s-close__brand {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .s-close__brand b { color: var(--accent); }
+  .s-close__brand span {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--fg-dim);
+    margin-top: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .s-close__cta {
+    text-align: right;
+  }
+  .s-close__cta b {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.24em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 400;
+  }
+  .s-close__cta a {
+    display: block;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+  .s-close__cta a em { color: var(--accent); font-style: normal; }
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+  <!-- ═══════════ 01 COVER ═══════════ -->
+  <section class="slide s-cover" data-label="Cover">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>DataScience Trends 2026 / BN・EH研修</div>
+      <div class="chrome__r">01 · 16</div>
+    </div>
+    <div class="s-cover__L">
+      <div class="s-cover__kicker">BN・EH研修 &nbsp;·&nbsp; <b>2026年4月21日</b></div>
+      <h1 class="s-cover__lead">DataScience<br>Trends <em>2026</em></h1>
+      <div class="s-cover__sub">
+        AIエージェント元年の翌年、AIは<b>世界に触れる身体</b>を手に入れた。<br>
+        <b>フィジカルAI元年</b>に何が起きて、どう備えるか。
+      </div>
+    </div>
+    <div class="s-cover__R">
+      <div class="s-cover__year">'26</div>
+      <div class="s-cover__tag">
+        <b>Physical AI Era</b><br>
+        Reasoning / World Models / VLA
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 02 THESIS ═══════════ -->
+  <section class="slide s-thesis" data-label="Thesis">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Thesis &nbsp;·&nbsp; 2026 の一行</div>
+      <div class="chrome__r">02 · 16</div>
+    </div>
+    <div class="eyebrow">The Thesis</div>
+    <h2 class="s-thesis__text">
+      <span class="strike">話す</span>AIは、<em>もう普通。</em><br>
+      次は <span class="hit">動く</span>AI、<br>
+      つまり<em>身体を持つ</em>AI。
+    </h2>
+    <div class="s-thesis__foot">
+      2025年は「AIエージェント元年」——画面の中で<b>考える・連携する</b>が揃った年。<br>
+      2026年は「フィジカルAI元年」——モデルが実世界の<b>手・足・目</b>を獲得する年。<br>
+      データの主戦場が、<b>テキスト → 映像 → 行動</b>へと移動している。
+    </div>
+    <div class="footer">
+      <div><b>BN・EH研修</b> / DS Trends 2026</div>
+      <div>2026 · #02</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 03 TIMELINE 2023→2026 ═══════════ -->
+  <section class="slide s-timeline" data-label="Timeline">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Context &nbsp;·&nbsp; 直近4年の流れ</div>
+      <div class="chrome__r">03 · 16</div>
+    </div>
+    <div class="s-timeline__head">
+      <h2 class="s-timeline__title">4年で、<em>地殻が動いた。</em></h2>
+      <p class="s-timeline__lead">
+        生成AIの登場から4年。<b>対話 → 推論 → 自律 → 身体</b>と、毎年スタックの一段上が解けていく。<br>
+        2025年の「エージェント」は、2026年の<b>フィジカルAI</b>を駆動するための頭脳になった。
+      </p>
+    </div>
+    <div class="tl-grid">
+      <div class="tl-cell">
+        <div class="tl-cell__y">2023 · 対話の年</div>
+        <div class="tl-cell__t">Chatが<br>当たり前に</div>
+        <ul class="tl-cell__list">
+          <li>GPT-4 / Claude 2</li>
+          <li>Prompt Engineering</li>
+          <li>ChatGPTが一般化</li>
+        </ul>
+      </div>
+      <div class="tl-cell">
+        <div class="tl-cell__y">2024 · 推論の年</div>
+        <div class="tl-cell__t">Reasoningと<br>MultiModal</div>
+        <ul class="tl-cell__list">
+          <li>o1 / Sonnet 3.5</li>
+          <li>画像・音声ネイティブ</li>
+          <li>MCP公開（Anthropic）</li>
+        </ul>
+      </div>
+      <div class="tl-cell">
+        <div class="tl-cell__y">2025 · 自律の年</div>
+        <div class="tl-cell__t">AIエージェント<br>元年</div>
+        <ul class="tl-cell__list">
+          <li>A2A（Google主導）</li>
+          <li>Claude Code / Devin</li>
+          <li>Computer Use が実用化</li>
+        </ul>
+      </div>
+      <div class="tl-cell tl-cell--now">
+        <div class="tl-cell__y">2026 · 身体の年</div>
+        <div class="tl-cell__t"><em>フィジカルAI</em><br>元年</div>
+        <ul class="tl-cell__list">
+          <li>VLA / World Models</li>
+          <li>Humanoid量産・配備</li>
+          <li>家庭・農業・工場へ</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer">
+      <div><b>BN・EH研修</b> / DS Trends 2026</div>
+      <div>2023 → 2024 → 2025 → 2026</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 04 TREND · REASONING / TTC ═══════════ -->
+  <section class="slide s-trend" data-label="Reasoning">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Trend 01 &nbsp;·&nbsp; Reasoning / Test-Time Compute</div>
+      <div class="chrome__r">04 · 16</div>
+    </div>
+    <div class="s-trend__L">
+      <div class="s-trend__tag">Trend 01 &nbsp;·&nbsp; 考える時間を買う</div>
+      <h2 class="s-trend__title">推論は、<em>時間をかける</em>ほど賢い。</h2>
+      <p class="s-trend__body">
+        学習時のスケーリングに加え、<b>推論時スケーリング（Test-Time Compute）</b>が主流に。<br>
+        同じモデルでも「考える時間」を伸ばすほど数学・コード・科学の性能が上がる、という実証が2025年に固まった。<br>
+        2026年は<b>Extended Thinking</b>が全モデルで標準装備。コストは「1回の応答」ではなく「1回の思考時間」で積まれる。
+      </p>
+      <div class="s-trend__quote">
+        モデル選びは「パラメータ数」から<br>
+        「思考予算（thinking budget）」へ。
+      </div>
+    </div>
+    <div class="s-trend__R">
+      <div class="s-trend__dia">State of reasoning models · 2026</div>
+      <div class="stat-grid">
+        <div class="stat-cell stat-cell--hot">
+          <div class="stat-cell__k">Frontier</div>
+          <div class="stat-cell__v">Claude <em>4.x</em></div>
+          <div class="stat-cell__d">Extended Thinking と並列エージェント実行が標準化。</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-cell__k">Reasoning</div>
+          <div class="stat-cell__v">GPT-<em>o</em>系</div>
+          <div class="stat-cell__d">Test-Time Computeで推論精度を伸ばす系譜。</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-cell__k">Multimodal</div>
+          <div class="stat-cell__v">Gemini <em>3</em></div>
+          <div class="stat-cell__d">映像・音声ネイティブ、長コンテキストの運用力。</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-cell__k">Open</div>
+          <div class="stat-cell__v">Llama / Qwen</div>
+          <div class="stat-cell__d">オープンモデルも推論モデル化。オンデバイス化が進展。</div>
+        </div>
+      </div>
+      <div class="players">
+        <div><b>Key shift:</b> 「早く答える」→「深く考える」</div>
+        <div><b>Cost:</b> tokens/sec → tokens/task</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 05 TREND · AGENTIC CODING ═══════════ -->
+  <section class="slide s-trend" data-label="AgenticCoding">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Trend 02 &nbsp;·&nbsp; Agentic Coding</div>
+      <div class="chrome__r">05 · 16</div>
+    </div>
+    <div class="s-trend__L">
+      <div class="s-trend__tag">Trend 02 &nbsp;·&nbsp; 開発は「書く」から「頼む」へ</div>
+      <h2 class="s-trend__title">コードを<em>書かずに</em>、書かせる。</h2>
+      <p class="s-trend__body">
+        Claude Code / Cursor / Devin など、<b>ターミナル常駐型のコーディングエージェント</b>が実務で主流化。<br>
+        設計書 → 実装 → テスト → PR まで一気通貫で走り、人間は<b>レビュー・ディレクション・判断</b>にシフト。<br>
+        「AIに書かせる時間」と「人が読む時間」のバランス設計が、2026年のエンジニアの腕の見せ所。
+      </p>
+      <div class="s-trend__quote">
+        エンジニア1人 = 複数エージェントの<br>
+        オーケストレーター、が標準体制。
+      </div>
+    </div>
+    <div class="s-trend__R">
+      <div class="s-trend__dia">Agentic dev stack · 2026</div>
+      <div class="stat-grid">
+        <div class="stat-cell stat-cell--hot">
+          <div class="stat-cell__k">CLI Agent</div>
+          <div class="stat-cell__v">Claude <em>Code</em></div>
+          <div class="stat-cell__d">ターミナル直結、ファイル・Git・MCP連携で実装まで完走。</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-cell__k">IDE</div>
+          <div class="stat-cell__v">Cursor</div>
+          <div class="stat-cell__d">エディタ統合、背景エージェントが並列でタスク消化。</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-cell__k">Autonomous</div>
+          <div class="stat-cell__v">Devin / Factory</div>
+          <div class="stat-cell__d">Issueを渡せばPRが返る、長時間自律型の代表格。</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-cell__k">SWE-bench</div>
+          <div class="stat-cell__v">70<em>%+</em></div>
+          <div class="stat-cell__d">実リポジトリのバグ修正成功率が2024年の2倍超に。</div>
+        </div>
+      </div>
+      <div class="players">
+        <div><b>Workflow:</b> Spec → Plan → Run → Review</div>
+        <div><b>Human:</b> judgment &amp; taste</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 06 PROTOCOL · MCP / A2A ═══════════ -->
+  <section class="slide s-proto" data-label="Protocols">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Trend 03 &nbsp;·&nbsp; Protocol Layer</div>
+      <div class="chrome__r">06 · 16</div>
+    </div>
+    <div class="eyebrow">Protocols · 接続の標準化</div>
+    <h2 class="s-proto__title">AIは、<em>プロトコル</em>で繋がる。</h2>
+    <p class="s-proto__lead">
+      2025年に仕様が固まった<b>MCP</b>と<b>A2A</b>は、2026年になって<b>エコシステムの前提</b>になった。<br>
+      モデルは<b>MCPでツールを握り</b>、エージェントは<b>A2Aで会話する</b>。この2層分離が整理されたことで、スタックは一気にモジュール化された。
+    </p>
+    <div class="proto-grid">
+      <div class="proto-card proto-card--hot">
+        <div class="proto-card__k">MCP · Model Context Protocol</div>
+        <div class="proto-card__t">AIに<em>ツール</em>を<br>渡すための標準。</div>
+        <div class="proto-card__d">
+          Anthropic発、<b>AI版USB-C</b>とも呼ばれる接続規格。ファイル・DB・API・業務ツールを、モデルから均一に叩ける。<br>
+          2026年は<b>OS・IDE・SaaSへの組込み</b>が当たり前になり、個人の開発環境にも浸透。
+        </div>
+        <div class="proto-card__meta">
+          <span><b>発祥：</b>2024年末</span>
+          <span><b>レイヤー：</b>Model ↔ Tool</span>
+        </div>
+      </div>
+      <div class="proto-card">
+        <div class="proto-card__k">A2A · Agent-to-Agent</div>
+        <div class="proto-card__t">AI同士の<br><em>会話</em>の標準。</div>
+        <div class="proto-card__d">
+          Google主導、50社超が参加して2025年に仕様公開。<br>
+          <b>Agent Card / Task / Artifact</b> という共通スキーマで、別ベンダー製エージェントが協調可能に。<br>
+          MCPが「ツールを持たせる」のに対し、A2Aは「別の頭脳と連携させる」層。
+        </div>
+        <div class="proto-card__meta">
+          <span><b>発祥：</b>2025年4月</span>
+          <span><b>レイヤー：</b>Agent ↔ Agent</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div><b>BN・EH研修</b> / DS Trends 2026</div>
+      <div>MCP = tools · A2A = peers</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 07 TREND · WORLD MODELS ═══════════ -->
+  <section class="slide s-trend" data-label="WorldModels">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Trend 04 &nbsp;·&nbsp; World Models</div>
+      <div class="chrome__r">07 · 16</div>
+    </div>
+    <div class="s-trend__L">
+      <div class="s-trend__tag">Trend 04 &nbsp;·&nbsp; 世界をシミュレートする</div>
+      <h2 class="s-trend__title">モデルが<em>世界</em>を<br>持ちはじめる。</h2>
+      <p class="s-trend__body">
+        言語モデルは「次のトークン」を当てるが、<b>World Model</b>は「次のフレーム・次の物理」を当てる。<br>
+        Genie系・Cosmos・V-JEPA系の流れで、<b>動画＝世界の記述</b>という前提が広がった。<br>
+        ロボットは<b>仮想世界で数万時間試行</b>してから現実に出る——その学習基盤が2026年の鍵。
+      </p>
+      <div class="s-trend__quote">
+        「実機で集める」から<br>
+        「世界モデルで無限に生成する」へ。
+      </div>
+    </div>
+    <div class="s-trend__R">
+      <div class="s-trend__dia">World models landscape · 2026</div>
+      <div class="stat-grid">
+        <div class="stat-cell stat-cell--hot">
+          <div class="stat-cell__k">Simulation</div>
+          <div class="stat-cell__v">NVIDIA <em>Cosmos</em></div>
+          <div class="stat-cell__d">ロボット学習向け生成型ワールドモデルの基盤。</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-cell__k">Interactive</div>
+          <div class="stat-cell__v">Genie <em>3</em></div>
+          <div class="stat-cell__d">プロンプトから歩ける環境を生成、長時間一貫。</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-cell__k">Video</div>
+          <div class="stat-cell__v">Sora / Veo</div>
+          <div class="stat-cell__d">長尺・高精度動画生成が実用域に。</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-cell__k">Predictive</div>
+          <div class="stat-cell__v">V-JEPA</div>
+          <div class="stat-cell__d">画素ではなく<b>表現</b>で世界を予測する系譜。</div>
+        </div>
+      </div>
+      <div class="players">
+        <div><b>Use:</b> Sim2Real / Data Aug</div>
+        <div><b>Who:</b> NVIDIA · DeepMind · Meta</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 08 ROBOTS LANDSCAPE ═══════════ -->
+  <section class="slide s-robots" data-label="Robots">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Trend 05 &nbsp;·&nbsp; VLA × Humanoid</div>
+      <div class="chrome__r">08 · 16</div>
+    </div>
+    <div class="s-robots__head">
+      <h2 class="s-robots__title">モデルが、<br><em>手足</em>を持った。</h2>
+      <p class="s-robots__lead">
+        <b>VLA（Vision-Language-Action）</b>モデルと量産型ヒューマノイドが同時に立ち上がり、2026年は<b>Robotics Foundation Model</b>が1つの市場になった。<br>
+        クラウドの巨人たちが、いま現場に降りてきている。
+      </p>
+    </div>
+    <div class="robots-grid">
+      <div class="robot-card">
+        <div class="robot-card__head">
+          <span>VLA Foundation</span>
+          <b>OPEN / PROPRIETARY</b>
+        </div>
+        <div class="robot-card__name">GR00T <em>N1</em></div>
+        <div class="robot-card__maker">NVIDIA · 汎用ヒューマノイド基盤</div>
+        <div class="robot-card__d">
+          ヒューマノイド向け<b>汎用基盤モデル</b>。Isaac/Cosmosによる仮想訓練と、実機ファインチューニングをパイプライン化。
+        </div>
+        <div class="robot-card__tag">Physical AI · Platform</div>
+      </div>
+      <div class="robot-card">
+        <div class="robot-card__head">
+          <span>Open VLA</span>
+          <b>π0 / π0.5</b>
+        </div>
+        <div class="robot-card__name">Physical <em>Intelligence</em></div>
+        <div class="robot-card__maker">PI · 汎用ロボット頭脳</div>
+        <div class="robot-card__d">
+          ロボット用途の<b>汎用VLAモデル</b>を公開。家事・物流・工業の<b>実動画＋行動</b>で学習。
+        </div>
+        <div class="robot-card__tag">VLA · General-purpose</div>
+      </div>
+      <div class="robot-card">
+        <div class="robot-card__head">
+          <span>Humanoid</span>
+          <b>HELIX</b>
+        </div>
+        <div class="robot-card__name">Figure <em>02 / 03</em></div>
+        <div class="robot-card__maker">Figure · 家庭/工場配備</div>
+        <div class="robot-card__d">
+          音声で指示できる<b>家庭内ヒューマノイド</b>の配備が始まった年。自社VLA「Helix」で末端まで統合。
+        </div>
+        <div class="robot-card__tag">Home · Factory</div>
+      </div>
+      <div class="robot-card">
+        <div class="robot-card__head">
+          <span>Humanoid</span>
+          <b>NEO</b>
+        </div>
+        <div class="robot-card__name">1X <em>NEO</em></div>
+        <div class="robot-card__maker">1X · 家事ロボット</div>
+        <div class="robot-card__d">
+          家庭向けに振り切った柔らかい設計。<b>動作データの収集</b>そのものがビジネスモデルに。
+        </div>
+        <div class="robot-card__tag">Home · Data moat</div>
+      </div>
+      <div class="robot-card">
+        <div class="robot-card__head">
+          <span>Humanoid</span>
+          <b>OPTIMUS</b>
+        </div>
+        <div class="robot-card__name">Tesla <em>Optimus</em></div>
+        <div class="robot-card__maker">Tesla · 自社工場実戦投入</div>
+        <div class="robot-card__d">
+          自社生産ラインで<b>実タスク</b>を繰り返し、垂直統合の規模でデータを刈り取る戦略。
+        </div>
+        <div class="robot-card__tag">Factory · Vertical</div>
+      </div>
+      <div class="robot-card robot-card">
+        <div class="robot-card__head">
+          <span>Open / HW</span>
+          <b>LEROBOT</b>
+        </div>
+        <div class="robot-card__name">SO-ARM <em>101</em></div>
+        <div class="robot-card__maker">Hugging Face · オープン</div>
+        <div class="robot-card__d">
+          誰でも組める<b>オープン6軸アーム</b>。LeRobotエコシステムで、個人でもVLA学習が可能に。
+        </div>
+        <div class="robot-card__tag">Indie · Accessible</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 09 SECTION DIVIDER ═══════════ -->
+  <section class="slide s-divider" data-label="Part2Divider">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Part II &nbsp;·&nbsp; Physical AI Case Study</div>
+      <div class="chrome__r">09 · 16</div>
+    </div>
+    <div class="s-divider__num">II</div>
+    <div class="s-divider__kicker">— Part II · 自分で触る —</div>
+    <h2 class="s-divider__title">トレンドを、<br><em>手に取る。</em></h2>
+    <p class="s-divider__sub">
+      ここからは、研究の受け売りではなく<b>自分で動かしている話</b>。<br>
+      フィジカルAIを「作って・着て・踊らせる」——ウェアラブル・デュアルアームのケーススタディ。
+    </p>
+  </section>
+
+  <!-- ═══════════ 10 TITLE ═══════════ -->
+  <section class="slide s-title" data-label="SOARM-Title">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Wearable SO-ARM / Manifesto</div>
+      <div class="chrome__r">10 · 16</div>
+    </div>
+    <div class="s-title__L">
+      <div class="s-title__kicker">Physical AI Case Study &nbsp;·&nbsp; <b>Wearable SO-ARM</b></div>
+      <h1 class="s-title__lead">この<em>腕</em>が、<br>いずれ自律する。</h1>
+      <div class="s-title__sub">
+        目指すのは、<b>自律ロボットが農作物を摘む未来</b>。<br>
+        そこへの最短ルートとして、人の手の動きをそのまま転写する<b>ウェアラブル・デュアルアーム</b>を作っている。
+      </div>
+    </div>
+    <div class="s-title__R">
+      <img src="img/cover.jpg" alt="Wearable SO-ARM on stand">
+      <div class="s-title__tag">
+        <b>Wearable SO-ARM 101</b><br>
+        7-DOF × 2 &nbsp;/&nbsp; Cordless
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 11 THESIS ═══════════ -->
+  <section class="slide s-thesis" data-label="SOARM-Thesis">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Thesis &nbsp;·&nbsp; 残された課題</div>
+      <div class="chrome__r">11 · 16</div>
+    </div>
+    <div class="eyebrow">The Thesis</div>
+    <h2 class="s-thesis__text">
+      <span class="strike">歩く</span>は、<em>できる。</em><br>
+      でも <span class="hit">摘む</span>は、<br>
+      まだ誰も。
+    </h2>
+    <div class="s-thesis__foot">
+      精密に歩く二足歩行ロボットは、すでに市場にある。<br>
+      でも「作物を摘む」「傷口を縫う」「棚から取る」を<b>実用速度</b>でやれる腕は、まだ誰のものでもない。<br>
+      次のブレークスルーは、<b>腕と手先の精密さ</b>にある。
+    </div>
+    <div class="footer">
+      <div><b>r488it</b> / Wearable SO-ARM</div>
+      <div>PART II &nbsp;·&nbsp; #11</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 12 ANSWER ═══════════ -->
+  <section class="slide s-answer" data-label="SOARM-Answer">
+    <div class="chrome" style="color: var(--fg-dim);">
+      <div><span class="chrome__dot"></span>The Answer</div>
+      <div class="chrome__r">12 · 16</div>
+    </div>
+    <div class="s-answer__L">
+      <div class="eyebrow">So I built it.</div>
+      <h2 class="s-answer__huge">
+        だから、<br><em>着る。</em>
+      </h2>
+      <p class="s-answer__body">
+        コードで教えるのではなく、<b>人の動きをそのまま転写する</b>。<br>
+        そのために、人が着る7軸×2本のデュアルアームをゼロから設計した。<br>
+        SO-ARM101に upper_arm_roll / forearm_roll を追加した独自7-DOF構成。
+      </p>
+      <div class="s-answer__specs">
+        <div class="spec">
+          <div class="spec__v"><em>7</em>-DOF</div>
+          <div class="spec__k">per arm</div>
+        </div>
+        <div class="spec">
+          <div class="spec__v">16<em>srv</em></div>
+          <div class="spec__k">dual arm</div>
+        </div>
+        <div class="spec">
+          <div class="spec__v">0<em>wire</em></div>
+          <div class="spec__k">cordless</div>
+        </div>
+      </div>
+    </div>
+    <div class="s-answer__R">
+      <img src="img/wearing.png" alt="Wearable SO-ARM in use">
+      <div class="s-answer__marks">
+        <div class="mark mark--1">shoulder · 3-DOF</div>
+        <div class="mark mark--2">forearm · gripper</div>
+        <div class="mark mark--3">chest · harness</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 13 ROADMAP MAP ═══════════ -->
+  <section class="slide s-map" data-label="SOARM-Roadmap">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Roadmap &nbsp;·&nbsp; The Map</div>
+      <div class="chrome__r">13 · 16</div>
+    </div>
+    <div class="s-map__head">
+      <h2 class="s-map__title">人が教え、<br><em>機械が継ぐ。</em></h2>
+      <div class="s-map__legend">
+        ● 現在地 &nbsp;LEGEND<br>
+        ○ 目的地<br>
+        — ルート
+      </div>
+    </div>
+    <div class="s-map__canvas">
+      <svg class="s-map__path" viewBox="0 0 1700 560" preserveAspectRatio="none">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff6a1a"/>
+          </marker>
+        </defs>
+        <path d="M 238 440 C 450 360, 600 440, 748 310 S 1100 260, 1292 235"
+              fill="none" stroke="#ff6a1a" stroke-width="2.5"
+              stroke-dasharray="2 10" stroke-linecap="round"
+              marker-end="url(#arr)"/>
+      </svg>
+
+      <svg class="compass" viewBox="0 0 100 100" fill="none" stroke="#9a9a9f" stroke-width="1">
+        <circle cx="50" cy="50" r="38"/>
+        <circle cx="50" cy="50" r="2" fill="#ff6a1a" stroke="none"/>
+        <path d="M50 12 L54 50 L50 14 L46 50 Z" fill="#ff6a1a" stroke="none"/>
+        <path d="M50 88 L54 50 L50 86 L46 50 Z" fill="#9a9a9f" stroke="none"/>
+        <text x="50" y="9" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#ff6a1a" stroke="none">N</text>
+      </svg>
+
+      <div class="pin pin--1">
+        <div class="pin__card">
+          <div class="pin__phase">Phase 0 · 現在地</div>
+          <div class="pin__title">踊って、<br>身体と同期させる</div>
+          <div class="pin__desc">16サーボの<b style="color:var(--fg)">協調制御</b>を全身の動きで検証中。人の身体と滑らかに同期できるかを確かめるフェーズ。</div>
+        </div>
+        <div class="pin__stem"></div>
+      </div>
+      <div class="pin pin--2">
+        <div class="pin__card">
+          <div class="pin__phase">Phase 1 · 次</div>
+          <div class="pin__title">遠隔で解き、<br>データを貯める</div>
+          <div class="pin__desc">力覚FB付き<b style="color:var(--fg)">バイラテラル遠隔</b>でバニラ受粉を成功させる。成功した動きが、そのまま教師データに。</div>
+        </div>
+        <div class="pin__stem"></div>
+      </div>
+      <div class="pin pin--3 pin--future pin--below">
+        <div class="pin__card">
+          <div class="pin__phase">Phase 2 · その先</div>
+          <div class="pin__title">自律で、<br>他作物へ</div>
+          <div class="pin__desc">貯めたデータで徐々に<b style="color:var(--fg)">自律化</b>。同じ指先の技術をトマト・イチゴ・果樹へ。<b style="color:var(--fg)">フィジカル AI × 農業</b>の本番。</div>
+        </div>
+        <div class="pin__stem"></div>
+      </div>
+    </div>
+    <div class="footer">
+      <div><b>r488it</b> / Wearable SO-ARM</div>
+      <div>MAP &nbsp;·&nbsp; dance → pollinate → assist</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 14 PHASE 1 EVIDENCE ═══════════ -->
+  <section class="slide s-dance" data-label="SOARM-Evidence">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Phase 1 &nbsp;·&nbsp; Why it's hard</div>
+      <div class="chrome__r">14 · 16</div>
+    </div>
+    <div class="s-dance__L">
+      <div class="s-dance__tag">— The task · Phase 1</div>
+      <h2 class="s-dance__title"><em>1ミリ</em>の、<br>職人仕事。</h2>
+      <p class="s-dance__body">
+        バニラの<b>人工授粉</b>を人がこなしている映像。<br>
+        花弁を傷めず、柱頭に花粉を運ぶ——<b>指先ミリ単位</b>の精密作業。<br>
+        これが、ロボットが越えるべき<b>腕と手先</b>のハードル。
+      </p>
+      <div class="s-dance__stats">
+        <div class="s-dance__stat"><b>〜4s</b><span>per flower</span></div>
+        <div class="s-dance__stat"><b>〜1mm</b><span>tolerance</span></div>
+        <div class="s-dance__stat"><b>×1000</b><span>flowers/day</span></div>
+      </div>
+    </div>
+    <div class="s-dance__R s-dance__corners">
+      <i></i>
+      <video class="s-dance__video" src="arm-dance.mp4" controls loop playsinline preload="auto"></video>
+      <div class="s-dance__scan"></div>
+      <div class="s-dance__reticle">FIELD · HUMAN</div>
+      <div class="s-dance__caption">VANILLA_01 <span>human · hand pollination</span></div>
+      <i></i>
+    </div>
+  </section>
+
+  <!-- ═══════════ 15 DATA FLYWHEEL ═══════════ -->
+  <section class="slide s-loop" data-label="SOARM-Loop">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Data Flywheel &nbsp;·&nbsp; teleop → autonomy</div>
+      <div class="chrome__r">15 · 16</div>
+    </div>
+    <div class="eyebrow">Data Flywheel</div>
+    <h2 class="s-loop__title">
+      遠隔が、<br>やがて<em>自律</em>になる。
+    </h2>
+    <div class="loopBox">
+      <div class="loopBox__cell">
+        <div class="loopBox__n">01 · OPERATE</div>
+        <div class="loopBox__t">人が<br>遠隔操作</div>
+        <div class="loopBox__d">ウェアラブルで動きを捕捉。力覚を返して、人の指先の器用さを現場に届ける。</div>
+      </div>
+      <div class="loopBox__cell">
+        <div class="loopBox__n">02 · CAPTURE</div>
+        <div class="loopBox__t">マニピ中の<br>3D・画像を収集</div>
+        <div class="loopBox__d">点群・RGB・軌道・力データを同期して蓄積。ラベルは「人が成功した動き」そのもの。</div>
+      </div>
+      <div class="loopBox__cell">
+        <div class="loopBox__n">03 · LEARN</div>
+        <div class="loopBox__t">把持位置推定<br>＋軌道計画</div>
+        <div class="loopBox__d">認識・把持・軌道生成を学習。同じタスクをモデルがどこまで再現できるかを段階評価。</div>
+      </div>
+      <div class="loopBox__cell">
+        <div class="loopBox__n">04 · HANDOFF</div>
+        <div class="loopBox__t">徐々に<br>自律へ移行</div>
+        <div class="loopBox__d">簡単な部分から機械に任せ、難所は人に戻す。自律度は<em>タスク粒度</em>で滑らかに上げていく。</div>
+      </div>
+    </div>
+    <p class="s-loop__foot">
+      <b>遠隔で解いた成功例</b>が、次の<em>自律</em>のための教師データになる。<br>
+      Phase 1 は、タスクを解くと同時に<b>学習データ工場</b>として動く設計。
+    </p>
+  </section>
+
+  <!-- ═══════════ 16 CLOSING ═══════════ -->
+  <section class="slide s-close" data-label="Closing">
+    <div class="chrome">
+      <div><span class="chrome__dot"></span>Wrap-up &nbsp;·&nbsp; DS Trends 2026</div>
+      <div class="chrome__r">16 · 16</div>
+    </div>
+    <div class="s-close__lead-wrap">
+      <div class="s-close__head">— End of Session —</div>
+      <h1 class="s-close__lead">
+        話せるAIより、<br><em>触れるAI</em>を。
+      </h1>
+      <p class="s-close__sub">
+        2025年：AIが喋り、連携した。 <b>2026年：AIが身体を持つ。</b><br>
+        現場で勝つのは、<b>モデル × データフライホイール × 泥臭いハード</b>を全部握れるチーム。<br>
+        研修の次のアクションは「触ってみる」——買う・借りる・組む、どれでもいい。
+      </p>
+    </div>
+    <div class="s-close__video">
+      <video src="dance.mp4" controls loop playsinline preload="auto"></video>
+      <div class="s-close__video__cap"><b>●</b> &nbsp;PHYSICAL AI · LIVE</div>
+    </div>
+    <div class="s-close__bot">
+      <div class="s-close__brand">
+        <b>BN・EH研修</b> &nbsp;/&nbsp; DataScience Trends 2026
+        <span>Physical AI Era · 2026/04/21</span>
+      </div>
+      <div class="s-close__cta">
+        <b>Keep Watching</b>
+        <a href="#">Physical AI &nbsp;<em>as a craft</em></a>
+        <a href="#">Wearable SO-ARM &nbsp;<em>/r488it</em></a>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+</body>
+</html>
