@@ -83,11 +83,6 @@
     text-transform: uppercase;
   }
   .nav__brand span { color: var(--accent); }
-  .nav__links {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
   .nav__cta {
     color: var(--fg);
     text-decoration: none;
@@ -148,7 +143,7 @@
   #hero {
     height: 100vh;
     min-height: 720px;
-    padding: 120px 20px 60px;
+    padding: var(--hero-pad-top, 120px) 20px var(--hero-pad-bot, 60px);
     justify-content: space-between;
   }
   .hero__top { text-align: center; width: 100%; max-width: 1400px; }
@@ -171,7 +166,7 @@
     font-family: var(--font-display);
     font-variation-settings: "opsz" 144;
     font-weight: 400;
-    font-size: clamp(80px, 19vw, 320px);
+    font-size: clamp(80px, calc(19vw * var(--hero-scale, 1)), 320px);
     line-height: 0.86;
     letter-spacing: -0.04em;
   }
@@ -930,6 +925,53 @@
     text-transform: uppercase;
     margin-top: 10px;
   }
+  .tweaks__section {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--divider);
+  }
+  .tweaks__row {
+    display: grid;
+    grid-template-columns: 78px 1fr 34px;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-dim);
+    text-transform: uppercase;
+  }
+  .tweaks__row input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    background: var(--fg-faint);
+    outline: none;
+    cursor: pointer;
+  }
+  .tweaks__row input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 11px; height: 11px;
+    background: var(--accent);
+    border-radius: 100px;
+    border: 2px solid var(--bg);
+    cursor: pointer;
+  }
+  .tweaks__row input[type=range]::-moz-range-thumb {
+    width: 11px; height: 11px;
+    background: var(--accent);
+    border-radius: 100px;
+    border: 2px solid var(--bg);
+    cursor: pointer;
+  }
+  .tweaks__row > span {
+    text-align: right;
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+  }
 
   @media (max-width: 900px) {
     .hud { left: 12px; right: 12px; bottom: 12px; width: auto; }
@@ -966,14 +1008,11 @@
 
 <nav class="nav">
   <div class="nav__brand">Wearable-<span>SO-ARM</span></div>
-  <div class="nav__links">
-    <a class="nav__cta" href="./Deck/Wearable%20SO-ARM%20Deck_v1.html" target="_blank" rel="noopener">Deck</a>
-    <a class="nav__cta" href="#cta">MFT 2026</a>
-  </div>
+  <a class="nav__cta" href="#cta">MFT 2026</a>
 </nav>
 
 <!-- ═══════ 01 HERO ═══════ -->
-<section id="hero" class="stage">
+<section id="hero" class="solid">
   <div class="hero__top">
     <div class="hero__eyebrow">ウェアラブル・フィジカルAI</div>
     <h1 class="hero__title" id="heroTitle">Wearable.<br/><em>Dual-arm.</em></h1>
@@ -1213,6 +1252,30 @@
   <div class="tweaks__title">▸ Tweaks · Accent</div>
   <div class="tweaks__swatches" id="tweaksSwatches"></div>
   <div class="tweaks__hint">Recolors accent, rim light, HUD fills</div>
+
+  <div class="tweaks__section">
+    <div class="tweaks__title">▸ Hero</div>
+    <div class="tweaks__row">
+      <label>余白</label>
+      <input type="range" id="tw-pad" min="40" max="240" step="2" value="120">
+      <span id="tw-pad-v">120</span>
+    </div>
+    <div class="tweaks__row">
+      <label>文字</label>
+      <input type="range" id="tw-size" min="60" max="150" step="2" value="100">
+      <span id="tw-size-v">100</span>
+    </div>
+    <div class="tweaks__row">
+      <label>演出速度</label>
+      <input type="range" id="tw-scroll" min="30" max="200" step="5" value="100">
+      <span id="tw-scroll-v">1.0</span>
+    </div>
+    <div class="tweaks__row">
+      <label>3D存在感</label>
+      <input type="range" id="tw-3d" min="0" max="150" step="5" value="100">
+      <span id="tw-3d-v">1.0</span>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -1243,11 +1306,15 @@
   const rim = new THREE.DirectionalLight(0xff6a1a, 1.1); rim.position.set(-4, 1, -3); scene.add(rim);
   const fill = new THREE.DirectionalLight(0x4a7ca3, 0.5); fill.position.set(0, -3, 2); scene.add(fill);
 
-  // Materials — matched to the actual build photos
-  const matOrange    = new THREE.MeshStandardMaterial({ color: 0xff6e1f, metalness: 0.15, roughness: 0.55 });
+  // Materials — matched to the actual build photos (bright amber-orange PLA)
+  const matOrange    = new THREE.MeshStandardMaterial({ color: 0xff7a28, metalness: 0.1,  roughness: 0.42 });
   const matServo     = new THREE.MeshStandardMaterial({ color: 0x0a0a0a, metalness: 0.3,  roughness: 0.55 });
   const matChrome    = new THREE.MeshStandardMaterial({ color: 0xcfcfcf, metalness: 0.95, roughness: 0.12 });
   const matBlack     = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 0.4,  roughness: 0.6  });
+  const matBolt      = new THREE.MeshStandardMaterial({ color: 0x202020, metalness: 0.85, roughness: 0.35 });
+  const matCableR    = new THREE.MeshStandardMaterial({ color: 0x8b1818, metalness: 0.1,  roughness: 0.65 });
+  const matCableK    = new THREE.MeshStandardMaterial({ color: 0x0a0a0a, metalness: 0.1,  roughness: 0.7  });
+  const matPCB       = new THREE.MeshStandardMaterial({ color: 0x0e6b3a, metalness: 0.2,  roughness: 0.55 });
   const matWhite     = new THREE.MeshStandardMaterial({ color: 0xf2f2f2, metalness: 0.1,  roughness: 0.4  });
   const matScreen    = new THREE.MeshStandardMaterial({ color: 0x0a1a2a, emissive: 0x0a2a4a, emissiveIntensity: 0.6, metalness: 0.6, roughness: 0.3 });
   const matHighlight = new THREE.MeshStandardMaterial({ color: 0xffcc55, metalness: 0.25, roughness: 0.3, emissive: 0xff6a1a, emissiveIntensity: 1.3 });
@@ -1257,47 +1324,135 @@
     const sign = mirror ? -1 : 1;
     const root = new THREE.Group();
 
-    // A "joint housing": two orange side plates + back plate + visible black servo
+    // A "joint housing": clamshell with two rounded orange disc plates,
+    // bolt circle on outer face, exposed black servo body in the middle,
+    // and a small cable nub.
     function makeHousing(w = 0.18, h = 0.16, d = 0.16) {
       const g = new THREE.Group();
-      const plateGeo = new THREE.BoxGeometry(0.022, h, d);
-      const p1 = new THREE.Mesh(plateGeo, matOrange);
-      p1.position.x =  w / 2;
-      const p2 = new THREE.Mesh(plateGeo, matOrange);
-      p2.position.x = -w / 2;
-      const back = new THREE.Mesh(new THREE.BoxGeometry(w * 1.05, h * 0.9, 0.025), matOrange);
-      back.position.z = -d / 2 + 0.01;
-      // Black servo body inside the fork
+      const plateThick = 0.022;
+      const discR = Math.min(h, d) * 0.52;
+
+      // Each side: a thin box body + a cylindrical "disc" cap on the outer face
+      function makeSidePlate(sideSign) {
+        const sp = new THREE.Group();
+        // Inner flat plate
+        const plate = new THREE.Mesh(
+          new THREE.BoxGeometry(plateThick, h * 0.85, d * 0.95),
+          matOrange
+        );
+        sp.add(plate);
+        // Rounded disc cap (cylinder lying on X axis)
+        const disc = new THREE.Mesh(
+          new THREE.CylinderGeometry(discR, discR, plateThick * 1.1, 28),
+          matOrange
+        );
+        disc.rotation.z = Math.PI / 2;
+        sp.add(disc);
+        // Bolt circle — 8 small dark cylinders arranged in a ring
+        const boltR = discR * 0.72;
+        for (let k = 0; k < 8; k++) {
+          const a = (k / 8) * Math.PI * 2;
+          const bolt = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.0055, 0.0055, plateThick * 1.6, 8),
+            matBolt
+          );
+          bolt.rotation.z = Math.PI / 2;
+          bolt.position.set(sideSign * plateThick * 0.55, Math.sin(a) * boltR, Math.cos(a) * boltR);
+          sp.add(bolt);
+        }
+        // Center hub (slightly lighter dark — the bearing/shaft seat)
+        const hub = new THREE.Mesh(
+          new THREE.CylinderGeometry(discR * 0.22, discR * 0.22, plateThick * 1.4, 16),
+          matBlack
+        );
+        hub.rotation.z = Math.PI / 2;
+        hub.position.x = sideSign * plateThick * 0.4;
+        sp.add(hub);
+        sp.position.x = sideSign * (w / 2);
+        return sp;
+      }
+
+      const p1 = makeSidePlate(+1);
+      const p2 = makeSidePlate(-1);
+
+      // Back plate connecting the two sides
+      const back = new THREE.Mesh(
+        new THREE.BoxGeometry(w * 1.0, h * 0.95, 0.025),
+        matOrange
+      );
+      back.position.z = -d / 2 + 0.012;
+
+      // Black servo body inside the fork (slightly inset)
       const servo = new THREE.Mesh(
-        new THREE.BoxGeometry(w * 0.82, h * 0.88, d * 0.82),
+        new THREE.BoxGeometry(w * 0.78, h * 0.86, d * 0.86),
         matServo.clone()
       );
-      // Small servo horn (dark cylinder on side)
+      // Servo horn (small dark cylinder protruding from the side)
       const horn = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.025, 0.025, w * 0.12, 16),
+        new THREE.CylinderGeometry(0.018, 0.022, w * 0.06, 16),
         matBlack
       );
       horn.rotation.z = Math.PI / 2;
-      horn.position.x = w * 0.45;
-      g.add(p1, p2, back, servo, horn);
+      horn.position.x = w * 0.42;
+
+      // Tiny cable connector nub on the servo back
+      const connector = new THREE.Mesh(
+        new THREE.BoxGeometry(w * 0.18, h * 0.18, 0.018),
+        matWhite
+      );
+      connector.position.set(0, -h * 0.18, -d * 0.40);
+
+      g.add(p1, p2, back, servo, horn, connector);
       g.userData.servo = servo;
+      g.userData.connector = connector;
       return g;
     }
 
-    // An orange rectangular link between two joints
+    // A profiled orange link with bolt holes at the ends + a thin servo cable
+    // routed along one side (small dark capsule with red/black bands).
     function makeLink(length, wScale = 1) {
       const g = new THREE.Group();
+      const w = 0.115 * wScale;
+      const d = 0.13;
       const body = new THREE.Mesh(
-        new THREE.BoxGeometry(0.12 * wScale, length, 0.13),
+        new THREE.BoxGeometry(w, length, d),
         matOrange
       );
-      // Small inset detail on the side (mimics the 3D-printed rib)
+      g.add(body);
+
+      // Recessed rib on the side (printed seam)
       const rib = new THREE.Mesh(
-        new THREE.BoxGeometry(0.01, length * 0.85, 0.09),
+        new THREE.BoxGeometry(0.008, length * 0.86, 0.08),
         matBlack
       );
-      rib.position.x = 0.06 * wScale;
-      g.add(body, rib);
+      rib.position.x = w * 0.51;
+      g.add(rib);
+
+      // Bolt rosettes at each end (small ring of 4 dark dots)
+      [length * 0.42, -length * 0.42].forEach(yPos => {
+        for (let k = 0; k < 4; k++) {
+          const a = (k / 4) * Math.PI * 2 + Math.PI / 4;
+          const bolt = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.004, 0.004, w * 1.04, 8),
+            matBolt
+          );
+          bolt.rotation.z = Math.PI / 2;
+          bolt.position.set(0, yPos, Math.cos(a) * 0.035);
+          // along Y rosette
+          bolt.position.x = Math.sin(a) * w * 0.32;
+          g.add(bolt);
+        }
+      });
+
+      // Cable bundle running along the link (red + black strands)
+      const cableGeo = new THREE.CylinderGeometry(0.005, 0.005, length * 1.05, 8);
+      const cableR_ = new THREE.Mesh(cableGeo, matCableR);
+      cableR_.position.set(-w * 0.55, 0, d * 0.42);
+      g.add(cableR_);
+      const cableK_ = new THREE.Mesh(cableGeo, matCableK);
+      cableK_.position.set(-w * 0.55, 0, d * 0.32);
+      g.add(cableK_);
+
       return g;
     }
 
@@ -1345,14 +1500,30 @@
     const h7 = makeHousing(0.12, 0.1, 0.12);
     j7.add(h7); j6.add(j7);
 
-    // J8 gripper — orange base + two white fingers
+    // J8 gripper — orange base + two white finger paddles (close-up matches the photo)
     const j8 = new THREE.Group(); j8.position.y = 0.08;
     const gripBase = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.05, 0.13), matOrange);
-    const grip1 = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.15, 0.06), matWhite);
-    const grip2 = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.15, 0.06), matWhite);
+    // Bolt circle on the base (visible in photo)
+    for (let k = 0; k < 4; k++) {
+      const a = (k / 4) * Math.PI * 2 + Math.PI / 4;
+      const bolt = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.005, 0.005, 0.06, 8),
+        matBolt
+      );
+      bolt.position.set(Math.cos(a) * 0.045, 0, Math.sin(a) * 0.045);
+      gripBase.add(bolt);
+    }
+    // Two finger paddles with rounded outer edge
+    const fingerGeo = new THREE.BoxGeometry(0.024, 0.16, 0.05);
+    const grip1 = new THREE.Mesh(fingerGeo, matWhite);
+    const grip2 = new THREE.Mesh(fingerGeo, matWhite);
     grip1.position.set( 0.045, 0.1, 0);
     grip2.position.set(-0.045, 0.1, 0);
-    j8.add(gripBase, grip1, grip2); j7.add(j8);
+    // Tiny black tip pads at the gripper ends
+    const padGeo = new THREE.BoxGeometry(0.022, 0.025, 0.052);
+    const pad1 = new THREE.Mesh(padGeo, matBlack); pad1.position.set( 0.045, 0.18, 0);
+    const pad2 = new THREE.Mesh(padGeo, matBlack); pad2.position.set(-0.045, 0.18, 0);
+    j8.add(gripBase, grip1, grip2, pad1, pad2); j7.add(j8);
 
     root.scale.x = sign;
 
@@ -1390,13 +1561,202 @@
   );
   rig.add(centerBox);
 
-  // LCD screen on the controller front
+  // Small green control PCB strip alongside the center box (visible in build photos)
+  const pcb = new THREE.Mesh(
+    new THREE.BoxGeometry(0.13, 0.06, 0.008),
+    matPCB
+  );
+  pcb.position.set(0, -0.18, 0.072);
+  // Tiny chips on the PCB
+  for (let i = 0; i < 3; i++) {
+    const chip = new THREE.Mesh(
+      new THREE.BoxGeometry(0.018, 0.014, 0.006),
+      matBlack
+    );
+    chip.position.set(-0.04 + i * 0.04, 0, 0.008);
+    pcb.add(chip);
+  }
+  rig.add(pcb);
+
+  // Cable bundle running from each shoulder along the back of the chest rail
+  const railCableGeo = new THREE.CylinderGeometry(0.008, 0.008, 1.4, 8);
+  const railCableR = new THREE.Mesh(railCableGeo, matCableR);
+  railCableR.rotation.z = Math.PI / 2;
+  railCableR.position.set(0, 0.04, -0.06);
+  rig.add(railCableR);
+  const railCableK = new THREE.Mesh(railCableGeo, matCableK);
+  railCableK.rotation.z = Math.PI / 2;
+  railCableK.position.set(0, 0.02, -0.06);
+  rig.add(railCableK);
+
+  // スタックちゃん (Stack-chan) face — dynamic canvas texture
+  const faceCanvas = document.createElement('canvas');
+  faceCanvas.width = 256; faceCanvas.height = 224;
+  const faceCtx = faceCanvas.getContext('2d');
+  const faceTex = new THREE.CanvasTexture(faceCanvas);
+  faceTex.minFilter = THREE.LinearFilter;
+  const matFace = new THREE.MeshBasicMaterial({ map: faceTex });
+
   const screen = new THREE.Mesh(
     new THREE.PlaneGeometry(0.2, 0.18),
-    matScreen
+    matFace
   );
   screen.position.z = 0.071;
   rig.add(screen);
+
+  // Face state — modeled after stack-chan/avatar (saccade + per-eye gaze + emotion)
+  const face = {
+    blink: 0,          // 0 = open, 1 = closed
+    nextBlink: 2.5,
+    mouthOpen: 0,
+    // Base gaze (where the eyes are pointing in normalized -1..1)
+    gaze: { x: 0, y: 0 },
+    // Saccade — small random jitter, refreshed every ~300-1500ms
+    saccade: { x: 0, y: 0 },
+    nextSaccade: 0.5,
+    expression: 'neutral' // neutral | happy | surprised | sad | angry | wink
+  };
+
+  // Faithful-ish port of stack-chan's M5Stack Avatar face:
+  // - Black background LCD
+  // - Two small white eye dots (per-eye gaze offset)
+  // - Thin mouth that opens vertically
+  // - Emotion-driven eye shape (happy = arch, surprised = bigger, angry = slanted, sad = droop)
+  function drawStackFace(t) {
+    const c = faceCtx;
+    const W = faceCanvas.width, H = faceCanvas.height;
+    c.fillStyle = '#000000';
+    c.fillRect(0, 0, W, H);
+
+    const gx = (face.gaze.x + face.saccade.x) * 6;
+    const gy = (face.gaze.y + face.saccade.y) * 4;
+    const lidT = Math.max(0, 1 - face.blink);
+    const expr = face.expression;
+
+    // Stack-chan-style small dot eyes (M5Stack Avatar signature look)
+    const eyeY = H * 0.44;
+    const eyeGap = 46;
+    const baseR = 8;   // eye dot radius
+    c.fillStyle = '#ffffff';
+
+    function eye(cx, cy, wink) {
+      let rx = baseR, ry = baseR;
+      if (expr === 'surprised') { rx = ry = baseR * 1.45; }
+      if (expr === 'sad')       { ry = baseR * 0.6; }
+      if (expr === 'angry')     { ry = baseR * 0.85; rx = baseR * 1.15; }
+
+      const hScale = lidT * (wink ? 0.12 : 1);
+      const h = ry * hScale;
+
+      if (h < 1.5) {
+        // closed eye — a short stroke
+        c.fillRect(cx - rx + gx * 0.8, cy + gy - 1, rx * 2, 2.5);
+      } else if (expr === 'happy') {
+        // upward arch — stack-chan happy eye
+        c.strokeStyle = '#ffffff';
+        c.lineWidth = 3;
+        c.lineCap = 'round';
+        c.beginPath();
+        c.arc(cx + gx * 0.5, cy + 3, rx * 1.1, Math.PI * 1.1, Math.PI * 1.9, false);
+        c.stroke();
+      } else if (expr === 'angry') {
+        // slanted (inner corner low) — use a rotated ellipse
+        c.save();
+        c.translate(cx + gx, cy + gy);
+        c.rotate((cx < W/2 ? 1 : -1) * 0.35);
+        c.beginPath();
+        c.ellipse(0, 0, rx, h, 0, 0, Math.PI * 2);
+        c.fill();
+        c.restore();
+      } else {
+        c.beginPath();
+        c.ellipse(cx + gx, cy + gy, rx, h, 0, 0, Math.PI * 2);
+        c.fill();
+      }
+    }
+
+    eye(W/2 - eyeGap, eyeY, false);
+    eye(W/2 + eyeGap, eyeY, expr === 'wink');
+
+    // Mouth
+    const mx = W/2, my = H * 0.70;
+    const open = face.mouthOpen;
+    c.fillStyle = '#ffffff';
+    c.strokeStyle = '#ffffff';
+    c.lineCap = 'round';
+    if (open > 0.15) {
+      const mw = 22, mh = 3 + open * 12;
+      c.beginPath();
+      if (c.roundRect) c.roundRect(mx - mw/2, my - mh/2, mw, mh, 3);
+      else c.rect(mx - mw/2, my - mh/2, mw, mh);
+      c.fill();
+    } else if (expr === 'sad') {
+      c.lineWidth = 3;
+      c.beginPath();
+      c.arc(mx, my + 10, 14, Math.PI * 1.15, Math.PI * 1.85, false);
+      c.stroke();
+    } else if (expr === 'surprised') {
+      c.beginPath();
+      c.arc(mx, my, 5, 0, Math.PI * 2);
+      c.fill();
+    } else {
+      // Neutral / happy — flat line
+      c.fillRect(mx - 14, my - 1.5, 28, 3);
+    }
+
+    faceTex.needsUpdate = true;
+  }
+
+  // Face animation state machine — choose expression by section
+  let faceClock = 0, lastFaceT = 0;
+  function updateFace(t, dt) {
+    faceClock += dt;
+    // Blink
+    face.nextBlink -= dt;
+    if (face.nextBlink <= 0) {
+      face.blink = Math.min(1, face.blink + dt * 18);
+      if (face.blink >= 1) {
+        face.blink = 1;
+        setTimeout(() => { face.blink = 0; }, 70);
+        face.nextBlink = 2 + Math.random() * 3;
+      }
+    } else if (face.blink > 0 && face.nextBlink > 0.1) {
+      face.blink = Math.max(0, face.blink - dt * 14);
+    }
+
+    // Saccade — port of robot.ts saccadeLoop (random ±10°, refreshed 0.3-1.5s)
+    face.nextSaccade -= dt;
+    if (face.nextSaccade <= 0) {
+      face.saccade.x = (Math.random() * 2 - 1) * 0.35;
+      face.saccade.y = (Math.random() * 2 - 1) * 0.35;
+      face.nextSaccade = 0.3 + Math.random() * 1.2;
+    }
+
+    // Expression + mouth by section
+    if (activeSection === 'dance') {
+      face.expression = Math.sin(danceTime * 2) > 0 ? 'happy' : 'surprised';
+      face.mouthOpen = (Math.sin(danceTime * 8) * 0.5 + 0.5) * 0.9;
+      face.gaze.x = Math.sin(danceTime * 1.3) * 0.9;
+      face.gaze.y = Math.cos(danceTime * 1.7) * 0.6;
+    } else if (activeSection === 'anatomy') {
+      face.expression = 'focus';
+      face.mouthOpen = 0;
+      face.gaze.x = Math.sin(t * 0.4) * 0.6;
+      face.gaze.y = -0.3 + Math.sin(t * 0.3) * 0.3;
+    } else if (activeSection === 'showcase') {
+      face.expression = 'happy';
+      face.mouthOpen = (Math.sin(t * 2.2) * 0.5 + 0.5) * 0.3;
+      face.gaze.x = Math.sin(t * 0.5) * 0.7;
+      face.gaze.y = Math.cos(t * 0.6) * 0.4;
+    } else {
+      // hero & default
+      face.expression = Math.floor(t / 6) % 5 === 0 ? 'wink' : 'neutral';
+      face.mouthOpen = 0;
+      face.gaze.x = Math.sin(t * 0.3) * 0.5;
+      face.gaze.y = Math.sin(t * 0.22 + 1) * 0.3;
+    }
+    drawStackFace(t);
+  }
 
   // Tiny status LEDs
   const ledAccent = new THREE.Mesh(
@@ -1457,13 +1817,20 @@
   // Per-section rig targets
   const targets = {
     hero:       { x: 0,    y: -0.1, rotY:  0,    scale: 1.00 },
-    showcase:   { x: 0,    y:  0.0, rotY:  0.8,  scale: 1.10 },
+    showcase:   { x: 0,    y:  0.0, rotY:  0.087,scale: 1.10 },
     anatomy:    { x: 1.5,  y:  0.1, rotY: -0.35, scale: 1.00 },
     comparison: { x: 0,    y: -20,  rotY:  0,    scale: 1.00 },
-    dance:      { x: 0,    y:  0.05,rotY:  0,    scale: 1.22 },
+    dance:      { x: 0,    y:  0.05,rotY:  0.087,scale: 1.22 },
     tech:       { x: 0,    y: -20,  rotY:  0,    scale: 1.00 },
     cta:        { x: 0,    y: -20,  rotY:  0,    scale: 1.00 }
   };
+
+  // Hero-reveal flag — flips true after the per-char animation finishes (1.6s post-load)
+  // so the rig drifts into its 5° "idle tilt" baseline for the rest of the deck.
+  let heroRevealed = false;
+  // Hero tweaks — live-adjusted from the Tweaks panel
+  let scrollSpeed = 1.0;   // multiplier on rig lerp factors
+  let presence = 1.0;      // 3D presence (canvas opacity + rig scale multiplier)
 
   const clock = new THREE.Clock();
   // Store each arm's live joint state for HUD readouts
@@ -1482,10 +1849,18 @@
       updateDanceUI();
     }
 
-    rig.position.x = lerp(rig.position.x, tgt.x, 0.05);
-    rig.position.y = lerp(rig.position.y, tgt.y, 0.05);
-    rig.rotation.y = lerp(rig.rotation.y, tgt.rotY + Math.sin(t * 0.25) * 0.08, 0.04);
-    const s = lerp(rig.scale.x, tgt.scale, 0.05);
+    // Hero-reveal tilt baseline: after the char animation lands, the rig drifts
+    // into +5° (≈0.087 rad). Smoothly ramped in the lerp below.
+    const tiltBase = (heroRevealed && activeSection !== 'hero') ? 0.087 : 0;
+    // Dance: rig jumps in the center of the viewport (vertical sine bounce).
+    const jumpY = activeSection === 'dance'
+      ? Math.abs(Math.sin(t * 3.4)) * 0.22
+      : 0;
+
+    rig.position.x = lerp(rig.position.x, tgt.x, 0.05 * scrollSpeed);
+    rig.position.y = lerp(rig.position.y, tgt.y + jumpY, 0.08 * scrollSpeed);
+    rig.rotation.y = lerp(rig.rotation.y, tgt.rotY + tiltBase + Math.sin(t * 0.25) * 0.08, 0.04 * scrollSpeed);
+    const s = lerp(rig.scale.x, tgt.scale * presence, 0.05 * scrollSpeed);
     rig.scale.setScalar(s);
 
     [armL, armR].forEach((arm, idx) => {
@@ -1587,8 +1962,51 @@
     renderer.render(scene, camera);
 
     if (window.__hudReady) updateHUD(t);
+    updateFace(t, dt);
   }
   animate();
+
+  // ═══════ Hero — per-char reveal (1.1s · cubic-bezier(.22,.8,.3,1)) ═══════
+  // Splits the heading's text into <span class="char"> with stagger delays,
+  // preserving inline <em>/<br>. When the last char lands, heroRevealed flips
+  // and the rig drifts into its 5° idle tilt baseline (see animate()).
+  (function staggerHeroChars() {
+    const root = document.getElementById('heroTitle');
+    if (!root) return;
+    const STAGGER = 0.055; // seconds per character
+    const ANIM_DUR = 1.1;
+    let i = 0;
+    function walk(node) {
+      const kids = Array.from(node.childNodes);
+      kids.forEach(child => {
+        if (child.nodeType === 3) {
+          // text node — split into chars
+          const text = child.textContent;
+          const frag = document.createDocumentFragment();
+          for (const ch of text) {
+            if (ch === ' ') {
+              frag.appendChild(document.createTextNode(' '));
+              continue;
+            }
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = ch;
+            span.style.animationDelay = (i * STAGGER).toFixed(3) + 's';
+            frag.appendChild(span);
+            i++;
+          }
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === 1) {
+          // element node — recurse (preserves <em>, <br>)
+          if (child.tagName !== 'BR') walk(child);
+        }
+      });
+    }
+    walk(root);
+    // Flip heroRevealed once the last char's animation has settled.
+    const totalMs = ((i - 1) * STAGGER + ANIM_DUR) * 1000 + 150;
+    setTimeout(() => { heroRevealed = true; }, totalMs);
+  })();
 
   // ═══════ HUD / Dashboard ═══════
   const hud = document.getElementById('hud');
@@ -1720,7 +2138,11 @@
 
   // ═══════ Tweaks — accent color ═══════
   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "accent": "#ff6a1a"
+    "accent": "#ff6a1a",
+    "presence": 150,
+    "scrollSpeed": 80,
+    "heroSize": 100,
+    "heroPad": 74
   }/*EDITMODE-END*/;
   const SWATCHES = ['#ff6a1a','#f5f5f7','#ffd447','#5fd1a5','#6aa6ff','#d96aff'];
   const tweaksHost = document.getElementById('tweaksSwatches');
@@ -1747,6 +2169,50 @@
     tweaksHost.appendChild(sw);
   });
   applyAccent(TWEAK_DEFAULTS.accent);
+
+  // ═══════ Tweaks — hero sliders ═══════
+  // Drives:
+  //   --hero-pad-top / --hero-pad-bot  (CSS) — 余白
+  //   --hero-scale                     (CSS) — 文字スケール（19vw に乗算）
+  //   scrollSpeed                      (JS)  — 演出速度 (rig lerp factor multiplier)
+  //   presence + #arm-canvas.opacity   (JS+CSS) — 3D存在感
+  const armCanvas = document.getElementById('arm-canvas');
+  function applyHeroPad(v) {
+    const top = parseFloat(v);
+    document.documentElement.style.setProperty('--hero-pad-top', top + 'px');
+    document.documentElement.style.setProperty('--hero-pad-bot', (top * 0.5) + 'px');
+  }
+  function applyHeroSize(v) {
+    document.documentElement.style.setProperty('--hero-scale', (parseFloat(v) / 100).toFixed(3));
+  }
+  function applyScrollSpeed(v) { scrollSpeed = parseFloat(v) / 100; }
+  function applyPresence(v) {
+    presence = parseFloat(v) / 100;
+    armCanvas.style.opacity = Math.min(1, presence).toFixed(2);
+  }
+  function wireSlider(id, valId, fmt, apply, key) {
+    const input = document.getElementById(id);
+    const out = document.getElementById(valId);
+    function update(persist) {
+      const v = input.value;
+      out.textContent = fmt(v);
+      apply(v);
+      if (persist) {
+        try { window.parent.postMessage({type:'__edit_mode_set_keys', edits:{[key]: parseFloat(v)}}, '*'); } catch(e){}
+      }
+    }
+    input.addEventListener('input',  () => update(false));
+    input.addEventListener('change', () => update(true));
+    update(false);
+  }
+  document.getElementById('tw-pad').value    = TWEAK_DEFAULTS.heroPad;
+  document.getElementById('tw-size').value   = TWEAK_DEFAULTS.heroSize;
+  document.getElementById('tw-scroll').value = TWEAK_DEFAULTS.scrollSpeed;
+  document.getElementById('tw-3d').value     = TWEAK_DEFAULTS.presence;
+  wireSlider('tw-pad',    'tw-pad-v',    v => v + 'px',         applyHeroPad,     'heroPad');
+  wireSlider('tw-size',   'tw-size-v',   v => v + '%',          applyHeroSize,    'heroSize');
+  wireSlider('tw-scroll', 'tw-scroll-v', v => (v/100).toFixed(1) + 'x', applyScrollSpeed, 'scrollSpeed');
+  wireSlider('tw-3d',     'tw-3d-v',     v => (v/100).toFixed(1) + 'x', applyPresence,    'presence');
 
   // Edit-mode handshake
   window.addEventListener('message', (e) => {
